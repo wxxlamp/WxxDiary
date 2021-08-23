@@ -1,6 +1,6 @@
 package cn.wxxlamp.diary.util;
 
-import cn.wxxlamp.diary.DiaryInfo;
+import cn.wxxlamp.diary.DiaryMetaInfo;
 import com.alibaba.fastjson.JSON;
 
 import java.util.List;
@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class DiaryUtils {
 
-    public static String toString(DiaryInfo diaryInfo) {
-        return JSON.toJSONString(diaryInfo);
+    public static String toString(DiaryMetaInfo diaryMetaInfo) {
+        return JSON.toJSONString(diaryMetaInfo);
     }
 
     public static String toString(List<String> diaryInfoList) {

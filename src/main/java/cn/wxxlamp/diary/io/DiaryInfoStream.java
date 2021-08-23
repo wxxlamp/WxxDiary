@@ -1,11 +1,12 @@
 package cn.wxxlamp.diary.io;
 
 import cn.wxxlamp.diary.DiaryInfo;
+import cn.wxxlamp.diary.DiaryMetaInfo;
 
 import java.io.File;
-import java.util.HashMap;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author wxxlamp
@@ -13,15 +14,24 @@ import java.util.Map;
  */
 public class DiaryInfoStream {
 
-    Map<String, List<DiaryInfo>> cache = new HashMap<>(8);
-
-    public void write(DiaryInfo diaryInfo) {
+    public void write(DiaryMetaInfo diaryMetaInfo) {
 
     }
 
-    public File read(DiaryInfo diaryInfo) {
+    /**
+     * 从目录中获取元信息列表
+     * @return
+     */
+    public List<DiaryMetaInfo> read(String path) {
         return null;
     }
 
+    public void write(DiaryInfo diaryInfo, Boolean metaInfo, Boolean content) {
+        try (FileWriter writer = new FileWriter(diaryInfo.getMetaInfo().getFilePath())){
+            writer.write(diaryInfo.getContent());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

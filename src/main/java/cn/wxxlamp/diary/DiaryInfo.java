@@ -2,35 +2,15 @@ package cn.wxxlamp.diary;
 
 import lombok.Data;
 
-import java.io.File;
-
 /**
+ * 日记附加信息，和日记文件
  * @author wxxlamp
- * @date 2021/08/22~22:22
+ * @date 2021/08/24~00:00
  */
 @Data
 public class DiaryInfo {
 
-    private Integer id;
+    private DiaryMetaInfo metaInfo;
 
-    /**
-     * 创建时间戳，可以拿到很多东西
-     */
-    private Long createTime;
-
-    private Long updateTime;
-
-    private Byte week;
-
-    /**
-     * 1,2,3,4,5
-     * 蓝瘦，差，一般，爽，起飞
-     */
-    private Byte feeling;
-
-    private Short weather;
-
-    private String links;
-
-    private File content;
+    private String content;
 }
