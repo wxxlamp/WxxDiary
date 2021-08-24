@@ -14,17 +14,7 @@ import java.util.List;
  */
 public class DiaryInfoStream {
 
-    public void write(DiaryMetaInfo diaryMetaInfo) {
 
-    }
-
-    /**
-     * 从目录中获取元信息列表
-     * @return
-     */
-    public List<DiaryMetaInfo> read(String path) {
-        return null;
-    }
 
     public void write(DiaryInfo diaryInfo, Boolean metaInfo, Boolean content) {
         try (FileWriter writer = new FileWriter(diaryInfo.getMetaInfo().getFilePath())){
