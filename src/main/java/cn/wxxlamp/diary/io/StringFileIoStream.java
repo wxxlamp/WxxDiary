@@ -1,12 +1,18 @@
 package cn.wxxlamp.diary.io;
 
 import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
+ * 底层和文件交互的方式
  * @author wxxlamp
  * @date 2021/08/24~23:00
  */
-public class StringFileIoStream {
+class StringFileIoStream {
+
+    // TODO 增加缓存
+    public static Map<String, BufferedWriter> pathWriterCache = new HashMap<>(16);
 
     /**
      * 将字符串信息写入path中

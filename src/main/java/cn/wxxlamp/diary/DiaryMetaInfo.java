@@ -1,5 +1,7 @@
 package cn.wxxlamp.diary;
 
+import cn.wxxlamp.diary.util.DateUtils;
+import cn.wxxlamp.diary.util.PathUtils;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
@@ -55,5 +57,10 @@ public class DiaryMetaInfo {
     @Override
     public String toString() {
         return JSON.toJSONString(this);
+    }
+
+    public String getPath() {
+        Integer[] pathArr = DateUtils.getYearMouthDay(createTime);
+        return PathUtils.getPath(pathArr[0], pathArr[1]);
     }
 }
