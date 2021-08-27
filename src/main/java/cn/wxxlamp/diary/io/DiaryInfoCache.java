@@ -13,13 +13,16 @@ import java.util.stream.Collectors;
  */
 class DiaryInfoCache {
 
+    /**
+     * TODO 把v升级为 {@link cn.wxxlamp.diary.DiaryInfo}
+     */
     private static final Map<String, DiaryMetaInfo> META_INFO_CACHE = new HashMap<>(16);
 
     public static DiaryMetaInfo getMetaInfo(String path) {
         return META_INFO_CACHE.get(path);
     }
 
-    public static void put(String path, DiaryMetaInfo metaInfo) {
+    public static void putMetaInfo(String path, DiaryMetaInfo metaInfo) {
         META_INFO_CACHE.put(path, metaInfo);
     }
 

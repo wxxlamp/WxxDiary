@@ -59,7 +59,7 @@ public class DiaryMetaInfo {
         return JSON.toJSONString(this);
     }
 
-    public String getPath() {
+    public String getMetaPath() {
         Integer[] pathArr = DateUtils.getYearMouthDay(createTime);
         return PathUtils.getPath(pathArr[0], pathArr[1]);
     }

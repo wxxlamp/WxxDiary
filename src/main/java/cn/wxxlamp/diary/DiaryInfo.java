@@ -1,5 +1,6 @@
 package cn.wxxlamp.diary;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @date 2021/08/24~00:00
  */
 @Data
+@Builder
 public class DiaryInfo {
 
     private DiaryMetaInfo metaInfo;

@@ -7,7 +7,7 @@ package cn.wxxlamp.diary.util;
  */
 public class PathUtils {
 
-    public static String getMouthPathFromWholePath(String path) {
+    public static String getMetaPathFromFilePath(String path) {
         // FIXME
         return path.substring(0, 2);
     }

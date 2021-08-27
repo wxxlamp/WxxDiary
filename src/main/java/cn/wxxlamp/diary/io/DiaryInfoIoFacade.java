@@ -1,6 +1,7 @@
 package cn.wxxlamp.diary.io;
 
 import cn.wxxlamp.diary.DiaryInfo;
+import cn.wxxlamp.diary.DiaryMetaInfo;
 
 /**
  * 供外部系统调用
@@ -12,8 +13,14 @@ public class DiaryInfoIoFacade {
     private static final DiaryInfoStream STREAM = new DiaryInfoStream(new StringFileIoStream());
 
     public void writeDiaryInfo(DiaryInfo diaryInfo) {
-        String path = diaryInfo.getMetaInfo().getPath();
-        STREAM.writeMetaInfo(diaryInfo.getMetaInfo(), path);
+        String metaPath = diaryInfo.getMetaInfo().getMetaPath();
+        STREAM.writeMetaInfo(diaryInfo.getMetaInfo(), metaPath);
         STREAM.writeContentInfo(diaryInfo.getContent(), diaryInfo.getMetaInfo().getFilePath());
+    }
+
+    public DiaryInfo readDiaryInfo(String filePath) {
+        DiaryMetaInfo diaryMetaInfo = STREAM.readMetaInfo(filePath);
+        String content = STREAM.readContentInfo(filePath);
+        return DiaryInfo.builder().metaInfo(diaryMetaInfo).content(content).build();
     }
 }
