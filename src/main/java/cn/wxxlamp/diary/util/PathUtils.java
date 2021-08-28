@@ -18,6 +18,8 @@ public class PathUtils {
             + "wd" + File.separator
             + "data";
 
+    private static final Pattern PATTERN = Pattern.compile("[0-9]*");
+
     public static String getDir() {
         return DIR;
     }
@@ -25,8 +27,6 @@ public class PathUtils {
     public static String getPath(Integer year, Integer mouth, Integer day) {
         return year + File.separator + mouth + File.separator + day;
     }
-
-    private static final Pattern PATTERN = Pattern.compile("[0-9]*");
 
     public static List<Integer> getSubFileName(String path) {
         File file = new File(path);
