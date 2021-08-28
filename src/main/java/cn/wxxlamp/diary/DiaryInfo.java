@@ -1,7 +1,6 @@
 package cn.wxxlamp.diary;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 /**
  * 日记附加信息，和日记文件
@@ -10,6 +9,9 @@ import lombok.Data;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@ToString
 public class DiaryInfo {
 
     private DiaryMetaInfo metaInfo;

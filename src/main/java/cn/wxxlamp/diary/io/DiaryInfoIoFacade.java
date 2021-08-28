@@ -13,14 +13,16 @@ public class DiaryInfoIoFacade {
     private static final DiaryInfoStream STREAM = new DiaryInfoStream(new StringFileIoStream());
 
     public void writeDiaryInfo(DiaryInfo diaryInfo) {
-        String metaPath = diaryInfo.getMetaInfo().getMetaPath();
-        STREAM.writeMetaInfo(diaryInfo.getMetaInfo(), metaPath);
-        STREAM.writeContentInfo(diaryInfo.getContent(), diaryInfo.getMetaInfo().getFilePath());
+        String filePath = diaryInfo.getMetaInfo().getFilePath();
+        STREAM.writeDiaryInfo(diaryInfo, filePath, false);
+    }
+
+    public void writeDiaryInfo(DiaryInfo diaryInfo, Boolean persistence) {
+        String filePath = diaryInfo.getMetaInfo().getFilePath();
+        STREAM.writeDiaryInfo(diaryInfo, filePath, persistence);
     }
 
     public DiaryInfo readDiaryInfo(String filePath) {
-        DiaryMetaInfo diaryMetaInfo = STREAM.readMetaInfo(filePath);
-        String content = STREAM.readContentInfo(filePath);
-        return DiaryInfo.builder().metaInfo(diaryMetaInfo).content(content).build();
+        return STREAM.readDiaryInfo(filePath);
     }
 }

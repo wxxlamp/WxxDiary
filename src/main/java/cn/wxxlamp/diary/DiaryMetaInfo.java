@@ -1,24 +1,24 @@
 package cn.wxxlamp.diary;
 
-import cn.wxxlamp.diary.util.DateUtils;
-import cn.wxxlamp.diary.util.PathUtils;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
 
 import java.util.List;
 
 /**
- * 每个月的目录中只有一个meta-info.json文件，里面是一个list集合
  * @author wxxlamp
  * @date 2021/08/22~22:22
  */
 @Data
 public class DiaryMetaInfo {
 
+    /**
+     * 第几篇文章
+     */
     private Integer id;
 
     /**
-     * 创建时间戳，可以拿到很多东西
+     * 创建时间戳，拿到几号，就是文件名
      */
     private Long createTime;
 
@@ -51,16 +51,12 @@ public class DiaryMetaInfo {
 
     /**
      * 文本路径
+     * wd/data/2021/08/23
      */
     private String filePath;
 
     @Override
     public String toString() {
         return JSON.toJSONString(this);
-    }
-
-    public String getMetaPath() {
-        Integer[] pathArr = DateUtils.getYearMouthDay(createTime);
-        return PathUtils.getPath(pathArr[0], pathArr[1]);
     }
 }

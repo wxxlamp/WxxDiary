@@ -1,5 +1,6 @@
 package cn.wxxlamp.diary.io;
 
+import cn.wxxlamp.diary.DiaryInfo;
 import cn.wxxlamp.diary.DiaryMetaInfo;
 import cn.wxxlamp.diary.util.PathUtils;
 import com.alibaba.fastjson.JSONObject;
@@ -16,46 +17,34 @@ class DiaryInfoStream {
 
     private final StringFileIoStream ioStream;
 
+    private static final String SPLIT = "|";
+    private static final String SPLIT_X = "\\|";
+
     public DiaryInfoStream(StringFileIoStream ioStream) {
         this.ioStream = ioStream;
     }
 
-    public void writeContentInfo(String content, String filePath) {
-        ioStream.write(content, filePath);
-    }
-
-    public String readContentInfo(String filePath) {
-        return ioStream.read(filePath);
-    }
-
-    public DiaryMetaInfo readMetaInfo(String filePath) {
-        DiaryMetaInfo metaInfo = DiaryInfoCache.getMetaInfo(filePath);
-        if (metaInfo == null) {
-            String metaInfoListJson = ioStream.read(PathUtils.getMetaPathFromFilePath(filePath));
-            List<DiaryMetaInfo> metaInfoList = JSONObject.parseObject(metaInfoListJson, new TypeReference<List<DiaryMetaInfo>>(){});
-            for (DiaryMetaInfo diaryMetaInfo : metaInfoList) {
-                String subFilePath = diaryMetaInfo.getFilePath();
-                if (filePath.equals(subFilePath)) {
-                    metaInfo = diaryMetaInfo;
-                }
-                DiaryInfoCache.putMetaInfo(subFilePath, diaryMetaInfo);
-            }
-        }
-        return metaInfo;
-    }
-
-    public void writeMetaInfo(DiaryMetaInfo metaInfo, String filePath) {
-        this.writeMetaInfo(metaInfo, filePath, false);
-    }
-
-    public void writeMetaInfo(DiaryMetaInfo metaInfo, String filePath, Boolean persistence) {
-        DiaryInfoCache.putMetaInfo(filePath, metaInfo);
+    public void writeDiaryInfo(DiaryInfo diaryInfo, String filePath, Boolean persistence) {
+        DiaryInfoCache.putDiaryInfo(filePath, diaryInfo);
         if (persistence) {
-            StringBuilder sb = new StringBuilder();
-            String metaPath = PathUtils.getMetaPathFromFilePath(filePath);
-            DiaryInfoCache.listMouthMetaInfo(metaPath).forEach(sb::append);
-            ioStream.write(sb.toString(), metaPath);
+            String outputString = diaryInfo.getMetaInfo().toString()
+                    + SPLIT
+                    + diaryInfo.getContent();
+            ioStream.write(outputString, filePath);
         }
+    }
+
+    public DiaryInfo readDiaryInfo(String filePath) {
+        DiaryInfo diaryInfo = DiaryInfoCache.getDiaryInfo(filePath);
+        if (diaryInfo == null) {
+            String[] inputString = ioStream.read(filePath).split(SPLIT_X);
+            String metaInfoJson = inputString[0];
+            String content = inputString[1];
+            diaryInfo = DiaryInfo.builder()
+                    .metaInfo(JSONObject.parseObject(metaInfoJson, DiaryMetaInfo.class))
+                    .content(content).build();
+        }
+        return diaryInfo;
     }
 
 }
