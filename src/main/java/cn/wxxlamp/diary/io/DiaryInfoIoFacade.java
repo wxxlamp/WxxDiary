@@ -1,7 +1,6 @@
 package cn.wxxlamp.diary.io;
 
-import cn.wxxlamp.diary.DiaryInfo;
-import cn.wxxlamp.diary.DiaryMetaInfo;
+import cn.wxxlamp.diary.model.DiaryInfo;
 
 /**
  * 供外部系统调用

@@ -1,6 +1,6 @@
 package cn.wxxlamp.diary.io;
 
-import cn.wxxlamp.diary.DiaryInfo;
+import cn.wxxlamp.diary.model.DiaryInfo;
 
 import java.util.HashMap;
 import java.util.Map;

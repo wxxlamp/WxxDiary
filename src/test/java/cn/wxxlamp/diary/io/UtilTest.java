@@ -1,4 +1,4 @@
-package cn.wxxlanp.diary.io;
+package cn.wxxlamp.diary.io;
 
 import cn.wxxlamp.diary.util.DateUtils;
 import cn.wxxlamp.diary.util.PathUtils;

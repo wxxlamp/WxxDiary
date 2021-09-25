@@ -1,12 +1,8 @@
 package cn.wxxlamp.diary.io;
 
-import cn.wxxlamp.diary.DiaryInfo;
-import cn.wxxlamp.diary.DiaryMetaInfo;
-import cn.wxxlamp.diary.util.PathUtils;
+import cn.wxxlamp.diary.model.DiaryInfo;
+import cn.wxxlamp.diary.model.DiaryMetaInfo;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.TypeReference;
-
-import java.util.List;
 
 /**
  * 本类负责初步抽象

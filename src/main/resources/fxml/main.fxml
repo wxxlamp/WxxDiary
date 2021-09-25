@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<?import cn.wxxlamp.diary.ui.DatePicker?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.MainController">
+   <children>
+      <SplitPane dividerPositions="0.3494983277591973">
+        <items>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="100.0">
+               <children>
+                  <JFXDatePicker defaultColor="#1ba0a4" editable="false" prefHeight="30.0" prefWidth="247.0" />
+               </children>
+                <DatePicker/>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="611.0">
+               <children>
+                  <JFXTabPane prefHeight="400.0" prefWidth="464.0">
+                     <tabs>
+                        <Tab text="7/8">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                          </content>
+                        </Tab>
+                        <Tab onCloseRequest="#closeBar" text="8/0">
+                           <content>
+                              <ScrollPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                           </content>
+                        </Tab>
+                     </tabs>
+                  </JFXTabPane>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

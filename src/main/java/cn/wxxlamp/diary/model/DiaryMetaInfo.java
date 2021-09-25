@@ -1,4 +1,4 @@
-package cn.wxxlamp.diary;
+package cn.wxxlamp.diary.model;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Data;

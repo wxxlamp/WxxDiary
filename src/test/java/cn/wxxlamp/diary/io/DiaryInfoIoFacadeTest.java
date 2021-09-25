@@ -1,8 +1,7 @@
-package cn.wxxlanp.diary.io;
+package cn.wxxlamp.diary.io;
 
-import cn.wxxlamp.diary.DiaryInfo;
-import cn.wxxlamp.diary.DiaryMetaInfo;
-import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
+import cn.wxxlamp.diary.model.DiaryInfo;
+import cn.wxxlamp.diary.model.DiaryMetaInfo;
 import cn.wxxlamp.diary.util.DateUtils;
 import cn.wxxlamp.diary.util.PathUtils;
 import org.junit.Test;
