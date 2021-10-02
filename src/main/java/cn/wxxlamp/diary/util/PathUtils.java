@@ -25,14 +25,30 @@ public class PathUtils {
 
     private static final Pattern PATTERN = Pattern.compile("[0-9]*");
 
+    /**
+     * 获取用户数据目录
+     * @return {@link PathUtils#DIR}
+     */
     public static String getDir() {
         return DIR;
     }
 
+    /**
+     * 通过年月日来获取文件相对路径
+     * @param year 年
+     * @param mouth 月
+     * @param day 日
+     * @return 相对路径
+     */
     public static String getPath(Integer year, Integer mouth, Integer day) {
         return year + File.separator + mouth + File.separator + day;
     }
 
+    /**
+     * 通过相对路径来获取该目录下的文件名称
+     * @param path 文件名称
+     * @return 文件列表
+     */
     public static List<Integer> getSubFileName(String path) {
         File file = new File(path);
         List<Integer> dateList = new ArrayList<>();
@@ -44,6 +60,11 @@ public class PathUtils {
         return dateList;
     }
 
+    /**
+     * 如果该path下的目录不存在，则创建目录以及对应文件
+     * @param path 目录
+     * @return path
+     */
     public static String createIfNotExit(String path) {
         File dayFile = new File(path);
         File mouthFolder;

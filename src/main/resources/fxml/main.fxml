@@ -13,12 +13,11 @@
             <AnchorPane>
                <children>
                   <JFXDatePicker editable="false" prefHeight="36.0" prefWidth="175.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                  <JFXTreeView layoutX="-41.0" layoutY="36.0" prefHeight="392.0" prefWidth="325.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" />
-                  <JFXButton layoutX="128.0" layoutY="546.0" prefHeight="271.0" prefWidth="325.0" text="写日记" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <JFXTreeView fx:id="treeView" layoutX="-41.0" layoutY="36.0" prefHeight="391.0" prefWidth="325.0" AnchorPane.bottomAnchor="271.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" />
+                  <JFXButton fx:id="writerButton" layoutX="128.0" layoutY="546.0" onAction="#write" prefHeight="271.0" prefWidth="325.0" text="写日记" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                </children>
             </AnchorPane>
-          <AnchorPane styleClass="writer_pane">
-            </AnchorPane>
+          <AnchorPane fx:id="writerPane" styleClass="writer_pane" />
         </items>
       </SplitPane>
    </children>

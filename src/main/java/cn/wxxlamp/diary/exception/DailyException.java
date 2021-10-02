@@ -12,7 +12,7 @@ public class DailyException extends RuntimeException{
 
     public enum DailyExceptionEnum {
         /**
-         * 文件打開異常
+         * 文件打开异常
          */
         FILE_OPEN_ERROR
     }
