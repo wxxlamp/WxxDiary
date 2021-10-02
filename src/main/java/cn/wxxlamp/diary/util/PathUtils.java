@@ -1,7 +1,12 @@
 package cn.wxxlamp.diary.util;
 
+import cn.wxxlamp.diary.exception.DailyException;
+
 import java.io.File;
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -37,5 +42,25 @@ public class PathUtils {
             }
         }
         return dateList;
+    }
+
+    public static String createIfNotExit(String path) {
+        File dayFile = new File(path);
+        File mouthFolder;
+        boolean success = true;
+        if (!dayFile.exists()) {
+            if (!(mouthFolder = dayFile.getParentFile()).exists()) {
+                success = mouthFolder.mkdirs();
+            }
+            try {
+                success = dayFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!success) {
+           throw  new DailyException(DailyException.DailyExceptionEnum.FILE_OPEN_ERROR);
+        }
+        return path;
     }
 }

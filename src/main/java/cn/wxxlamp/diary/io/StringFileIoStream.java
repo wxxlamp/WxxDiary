@@ -1,5 +1,7 @@
 package cn.wxxlamp.diary.io;
 
+import cn.wxxlamp.diary.util.PathUtils;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +22,7 @@ class StringFileIoStream {
      * @param path 文件路径
      */
     public void write(String content, String path) {
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(path))) {
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(PathUtils.createIfNotExit(path)))) {
             bufferedWriter.write(content);
         } catch (IOException e) {
             e.printStackTrace();

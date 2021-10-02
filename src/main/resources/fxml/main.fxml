@@ -1,41 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.scene.control.ScrollPane?>
+<?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import cn.wxxlamp.diary.ui.DatePicker?>
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.MainController">
+<AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.MainController">
    <children>
-      <SplitPane dividerPositions="0.3494983277591973">
+      <SplitPane dividerPositions="0.3" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="100.0">
+            <AnchorPane>
                <children>
-                  <JFXDatePicker defaultColor="#1ba0a4" editable="false" prefHeight="30.0" prefWidth="247.0" />
+                  <JFXDatePicker editable="false" prefHeight="36.0" prefWidth="175.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                  <JFXTreeView layoutX="-41.0" layoutY="36.0" prefHeight="392.0" prefWidth="325.0" AnchorPane.bottomAnchor="270.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="36.0" />
+                  <JFXButton layoutX="128.0" layoutY="546.0" prefHeight="271.0" prefWidth="325.0" text="写日记" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                </children>
-                <DatePicker/>
             </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="611.0">
-               <children>
-                  <JFXTabPane prefHeight="400.0" prefWidth="464.0">
-                     <tabs>
-                        <Tab text="7/8">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                          </content>
-                        </Tab>
-                        <Tab onCloseRequest="#closeBar" text="8/0">
-                           <content>
-                              <ScrollPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                           </content>
-                        </Tab>
-                     </tabs>
-                  </JFXTabPane>
-               </children>
+          <AnchorPane styleClass="writer_pane">
             </AnchorPane>
         </items>
       </SplitPane>
