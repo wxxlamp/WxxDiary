@@ -2,6 +2,8 @@ package cn.wxxlamp.diary.io;
 
 import cn.wxxlamp.diary.util.DateUtils;
 import cn.wxxlamp.diary.util.PathUtils;
+import cn.wxxlamp.diary.util.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -27,5 +29,12 @@ public class UtilTest {
                 PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y + File.separator + m).forEach(d -> System.out.println(d + "天"));
             });
         });
+    }
+
+    @Test
+    public void StringUtilTest() {
+        String end = "DAY";
+        String begin = "3ishfasdfhsfd";
+        Assert.assertEquals(begin, StringUtils.subString(begin+end, end));
     }
 }

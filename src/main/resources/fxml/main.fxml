@@ -3,11 +3,13 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXTreeView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="700.0" prefWidth="1100.0" stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.MainController">
@@ -17,8 +19,8 @@
             <VBox fx:id="menuBox" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <JFXDatePicker fx:id="datePicker" editable="false" prefHeight="42.0" prefWidth="325.0" />
-                  <JFXTreeView fx:id="treeView" prefHeight="378.0" prefWidth="325.0" />
-                  <ScrollPane fx:id="scrollPane" prefHeight="238.0" prefWidth="325.0">
+                  <JFXTreeView fx:id="treeView" onMouseClicked="#onTreeViewClicked" prefHeight="378.0" prefWidth="325.0" />
+                  <ScrollPane fx:id="scrollPane" prefHeight="280.0" prefWidth="325.0">
                      <content>
                         <ImageView fitHeight="406.0" fitWidth="611.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -27,10 +29,17 @@
                         </ImageView>
                      </content>
                   </ScrollPane>
-                  <JFXButton fx:id="writerButton" onAction="#write" prefHeight="42.0" prefWidth="334.0" styleClass="write_button" text="Write Now !" textAlignment="CENTER" VBox.vgrow="ALWAYS" />
                </children>
             </VBox>
-          <AnchorPane fx:id="writerPane" styleClass="writer_pane" />
+            <BorderPane fx:id="writerPane" prefHeight="200.0" prefWidth="200.0" styleClass="writer_pane">
+               <center>
+                  <JFXButton fx:id="writerButton" onAction="#write" prefHeight="41.88" prefWidth="153.0" styleClass="write_button" text="Write Now !" textAlignment="CENTER" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets />
+                     </BorderPane.margin>
+                  </JFXButton>
+               </center>
+            </BorderPane>
         </items>
       </SplitPane>
    </children>

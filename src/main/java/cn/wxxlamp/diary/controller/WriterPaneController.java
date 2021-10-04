@@ -2,6 +2,7 @@ package cn.wxxlamp.diary.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.web.HTMLEditor;
 
 /**
@@ -16,11 +17,18 @@ public class WriterPaneController {
     @FXML
     private Tab tab;
 
+    @FXML
+    private TabPane tabPane;
+
     public HTMLEditor getEditor() {
         return editor;
     }
 
     public Tab getTab() {
         return tab;
+    }
+
+    public TabPane getTabPane() {
+        return tabPane;
     }
 }

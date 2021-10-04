@@ -34,6 +34,16 @@ public class PathUtils {
     }
 
     /**
+     * 通过年月日来获取文件绝对路径
+     * @param year 年
+     * @param mouth 月
+     * @param day 日
+     * @return 绝对路径
+     */
+    public static String getAbsolutePath(Integer year, Integer mouth, Integer day) {
+        return getDir() + File.separator + getPath(year, mouth, day);
+    }
+    /**
      * 通过年月日来获取文件相对路径
      * @param year 年
      * @param mouth 月

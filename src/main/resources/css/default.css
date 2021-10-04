@@ -5,7 +5,7 @@
     -fx-background-color:  transparent;
 }
 .write_button {
-    -fx-border-color: #ff6f00;
-    -fx-text-fill: #00ffea;
-    -fx-background-color: #ff6f00
+    -fx-border-color: #00ffea;
+    -fx-text-fill: black;
+    -fx-background-color: #00ffea
 }

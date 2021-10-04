@@ -1,17 +1,20 @@
 package cn.wxxlamp.diary.controller;
 
+import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
+import cn.wxxlamp.diary.model.DiaryInfo;
 import cn.wxxlamp.diary.util.FxmlUtils;
 import cn.wxxlamp.diary.util.PathUtils;
+import cn.wxxlamp.diary.util.StringUtils;
 import com.jfoenix.controls.JFXButton;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.HTMLEditor;
 
 import java.io.File;
 import java.net.URL;
@@ -29,7 +32,7 @@ public class MainController implements Initializable {
     private JFXButton writerButton;
 
     @FXML
-    private AnchorPane writerPane;
+    private BorderPane writerPane;
 
     @FXML
     private TreeView<String> treeView;
@@ -43,34 +46,24 @@ public class MainController implements Initializable {
     @FXML
     private VBox menuBox;
 
-    @FXML
-    public void write() {
-        FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
-        WriterPaneController writerPaneController = loader.getController();
-        writerPaneController.getTab().setText("今日日记");
-        writerPane.getChildren().add(loader.getRoot());
-        writerButton.setDisable(true);
-        writerButton.setOpacity(0);
-    }
+    private DiaryInfoIoFacade diaryInfoIoFacade = new DiaryInfoIoFacade();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCustomProperties();
         initDir();
-
     }
 
     /**
      * 绑定尺寸
      */
     private void initCustomProperties() {
-//        menuBox.prefWidthProperty().bind(writerButton.widthProperty().divide(7).multiply(3));
-        writerButton.prefWidthProperty().bind(menuBox.widthProperty());
-        writerButton.prefHeightProperty().bind(menuBox.heightProperty().multiply(0.06));
+        writerButton.prefWidthProperty().bind(writerPane.widthProperty().multiply(0.2));
+        writerButton.prefHeightProperty().bind(writerPane.heightProperty().multiply(0.06));
         datePicker.prefHeightProperty().bind(menuBox.heightProperty().multiply(0.06));
         datePicker.prefWidthProperty().bind(menuBox.widthProperty());
         treeView.prefHeightProperty().bind(menuBox.heightProperty().multiply(0.54));
-        scrollPane.prefHeightProperty().bind(menuBox.heightProperty().multiply(0.34));
+        scrollPane.prefHeightProperty().bind(menuBox.heightProperty().multiply(0.40));
     }
 
     /**
@@ -91,5 +84,40 @@ public class MainController implements Initializable {
             rootItem.getChildren().add(yearItem);
         });
         treeView.setRoot(rootItem);
+    }
+
+    @FXML
+    private void onTreeViewClicked() {
+        TreeItem<String> selectedItem = treeView.getSelectionModel().getSelectedItem();
+        // 触到箭头则是null
+        if (selectedItem == null) {
+            return;
+        }
+        if (selectedItem.getValue().endsWith("号")) {
+            TreeItem<String> mouthItem = selectedItem.getParent();
+            TreeItem<String> yearItem = mouthItem.getParent();
+            String path = PathUtils.getAbsolutePath(Integer.valueOf(StringUtils.subString(yearItem.getValue(), "年")),
+                    Integer.valueOf(StringUtils.subString(mouthItem.getValue(), "月")),
+                    Integer.valueOf(StringUtils.subString(selectedItem.getValue(), "号")));
+            DiaryInfo diaryInfo = diaryInfoIoFacade.readDiaryInfo(path);
+            //
+            FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
+            WriterPaneController writerPaneController = loader.getController();
+            Tab tab = writerPaneController.getTab();
+            tab.setText(selectedItem.getValue());
+            HTMLEditor editor = writerPaneController.getEditor();
+            editor.setHtmlText(diaryInfo.getContent());
+            writerPane.setCenter(loader.getRoot());
+        }
+    }
+
+    @FXML
+    public void write() {
+        FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
+        WriterPaneController writerPaneController = loader.getController();
+        writerPaneController.getTab().setText("今日日记");
+        writerPane.setCenter(loader.getRoot());
+//        writerButton.setDisable(true);
+//        writerButton.setOpacity(0);
     }
 }
