@@ -15,4 +15,8 @@ public class DateUtils {
         return new Integer[]{localDate.getYear(), localDate.getMonthValue(), localDate.getDayOfMonth()};
     }
 
+    public static byte getWeek(Long timestamp) {
+        LocalDate localDate = Instant.ofEpochMilli(timestamp).atZone(ZoneOffset.ofHours(8)).toLocalDate();
+        return (byte) localDate.getDayOfWeek().getValue();
+    }
 }

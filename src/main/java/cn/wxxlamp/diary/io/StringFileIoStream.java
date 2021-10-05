@@ -40,7 +40,9 @@ class StringFileIoStream {
             while((str=bufferedReader.readLine())!=null){
                 sb.append(str);
             }
-        }catch (IOException e){
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (IOException e){
             e.printStackTrace();
         }
         return sb.toString();

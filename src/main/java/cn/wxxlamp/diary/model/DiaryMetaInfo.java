@@ -1,7 +1,7 @@
 package cn.wxxlamp.diary.model;
 
 import com.alibaba.fastjson.JSON;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
@@ -10,6 +10,10 @@ import java.util.List;
  * @date 2021/08/22~22:22
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@ToString
 public class DiaryMetaInfo {
 
     /**

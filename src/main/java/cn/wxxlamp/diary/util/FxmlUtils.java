@@ -1,8 +1,10 @@
 package cn.wxxlamp.diary.util;
 
+import com.google.common.collect.Maps;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @author wxxlamp
@@ -10,19 +12,15 @@ import java.io.IOException;
  */
 public class FxmlUtils {
 
+    private static final Map<String, FXMLLoader> CACHE = Maps.newHashMap();
     /**
      * 获取程序加载器
      * @param fxml xml文件
      * @return 加载器
      */
     public static FXMLLoader getLoader(String fxml) {
-        FXMLLoader fxmlLoader = new FXMLLoader(FxmlUtils.class.getResource("/fxml/" + fxml + ".fxml"));
-        try {
-            fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fxmlLoader;
+        getNode(fxml);
+        return CACHE.get(fxml);
     }
 
     /**
@@ -32,12 +30,16 @@ public class FxmlUtils {
      * @return rootNode
      */
     public static <T> T getNode(String fxml) {
-        FXMLLoader fxmlLoader = new FXMLLoader(FxmlUtils.class.getResource("/fxml/" + fxml + ".fxml"));
+        FXMLLoader fxmlLoader = CACHE.get(fxml);
         T node = null;
-        try {
-            node = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (fxmlLoader == null) {
+            fxmlLoader = new FXMLLoader(FxmlUtils.class.getResource("/fxml/" + fxml + ".fxml"));
+            try {
+                node = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            CACHE.put(fxml, fxmlLoader);
         }
         return node;
     }

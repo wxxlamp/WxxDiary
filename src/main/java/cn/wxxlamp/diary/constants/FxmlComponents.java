@@ -9,4 +9,6 @@ public interface FxmlComponents {
     String MAIN = "main";
 
     String WRITER_PANE = "writer_pane";
+
+    String WRITER_TAB = "writer_tab";
 }

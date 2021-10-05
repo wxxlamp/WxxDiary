@@ -34,6 +34,16 @@ public class PathUtils {
     }
 
     /**
+     * 通过时间戳来获取文件绝对路径
+     * @param timeStamp 时间戳
+     * @return 绝对路径
+     */
+    public static String getAbsolutePath(long timeStamp) {
+        Integer[] date = DateUtils.getYearMouthDay(System.currentTimeMillis());
+        return PathUtils.getAbsolutePath(date[0],date[1],date[2]);
+    }
+
+    /**
      * 通过年月日来获取文件绝对路径
      * @param year 年
      * @param mouth 月

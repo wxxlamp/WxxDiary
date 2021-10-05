@@ -39,6 +39,7 @@ class DiaryInfoStream {
             diaryInfo = DiaryInfo.builder()
                     .metaInfo(JSONObject.parseObject(metaInfoJson, DiaryMetaInfo.class))
                     .content(content).build();
+            DiaryInfoCache.putDiaryInfo(filePath, diaryInfo);
         }
         return diaryInfo;
     }

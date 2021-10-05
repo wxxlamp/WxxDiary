@@ -5,16 +5,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.web.HTMLEditor?>
 
-<TabPane fx:id="tabPane" prefHeight="398.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.WriterPaneController">
-    <tabs>
-        <Tab fx:id="tab">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                        <HTMLEditor fx:id="editor" htmlText="" layoutX="-74.0" layoutY="-22.0" prefHeight="338.0" prefWidth="415.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                    </children>
-                </AnchorPane>
-            </content>
-        </Tab>
-    </tabs>
+<TabPane fx:id="tabPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.WriterPaneController">
+<!--    <tabs>-->
+<!--        <Tab fx:id="tab">-->
+<!--            <content>-->
+<!--                <AnchorPane >-->
+<!--                    <children>-->
+<!--                        <HTMLEditor fx:id="editor" htmlText="" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />-->
+<!--                    </children>-->
+<!--                </AnchorPane>-->
+<!--            </content>-->
+<!--        </Tab>-->
+<!--    </tabs>-->
 </TabPane>

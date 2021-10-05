@@ -11,11 +11,6 @@ public class DiaryInfoIoFacade {
 
     private static final DiaryInfoStream STREAM = new DiaryInfoStream(new StringFileIoStream());
 
-    public void writeDiaryInfo(DiaryInfo diaryInfo) {
-        String filePath = diaryInfo.getMetaInfo().getFilePath();
-        STREAM.writeDiaryInfo(diaryInfo, filePath, false);
-    }
-
     public void writeDiaryInfo(DiaryInfo diaryInfo, Boolean persistence) {
         String filePath = diaryInfo.getMetaInfo().getFilePath();
         STREAM.writeDiaryInfo(diaryInfo, filePath, persistence);

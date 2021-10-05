@@ -12,21 +12,7 @@ import javafx.scene.web.HTMLEditor;
 public class WriterPaneController {
 
     @FXML
-    private HTMLEditor editor;
-
-    @FXML
-    private Tab tab;
-
-    @FXML
     private TabPane tabPane;
-
-    public HTMLEditor getEditor() {
-        return editor;
-    }
-
-    public Tab getTab() {
-        return tab;
-    }
 
     public TabPane getTabPane() {
         return tabPane;

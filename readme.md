@@ -30,6 +30,7 @@ WD的目标是让用户只关心写日记和看日记，其他的完全不用关
 5. 导出功能：假如用户要迁移数据，则可以通过导出功能将所有文件（夹）导出到其他disk中，然后在其他PC中使用WD的导入功能依然可以运行
 
 ## TODO
-1. 内存版本比较，如果是追缴写的话，就直接在disk中append，否则才覆盖
-2. 文件中增加缓存
-3. 每个path不仅有metaInfoCache，而且还要有FileWriter/FileReader的cache
+1. 每个path不仅有metaInfoCache，而且还要有FileWriter/FileReader的cache
+2. 如果今天已经写过日记了，就不能使用Write Now Button
+3. 写完今日日记后，目录需要刷新
+4. 当所有标签都不在时候，需要重新显示write now button

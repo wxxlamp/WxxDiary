@@ -2,25 +2,24 @@ package cn.wxxlamp.diary.controller;
 
 import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
 import cn.wxxlamp.diary.model.DiaryInfo;
+import cn.wxxlamp.diary.service.WriterPaneService;
 import cn.wxxlamp.diary.util.FxmlUtils;
 import cn.wxxlamp.diary.util.PathUtils;
 import cn.wxxlamp.diary.util.StringUtils;
 import com.jfoenix.controls.JFXButton;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.web.HTMLEditor;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import static cn.wxxlamp.diary.constants.FxmlComponents.WRITER_PANE;
+import static cn.wxxlamp.diary.constants.FxmlComponents.WRITER_TAB;
 
 /**
  * @author wxxlamp
@@ -46,7 +45,9 @@ public class MainController implements Initializable {
     @FXML
     private VBox menuBox;
 
-    private DiaryInfoIoFacade diaryInfoIoFacade = new DiaryInfoIoFacade();
+    private final DiaryInfoIoFacade diaryInfoIoFacade = new DiaryInfoIoFacade();
+
+    private final WriterPaneService writerPaneService = new WriterPaneService();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -99,14 +100,13 @@ public class MainController implements Initializable {
             String path = PathUtils.getAbsolutePath(Integer.valueOf(StringUtils.subString(yearItem.getValue(), "年")),
                     Integer.valueOf(StringUtils.subString(mouthItem.getValue(), "月")),
                     Integer.valueOf(StringUtils.subString(selectedItem.getValue(), "号")));
-            DiaryInfo diaryInfo = diaryInfoIoFacade.readDiaryInfo(path);
             //
             FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
-            WriterPaneController writerPaneController = loader.getController();
-            Tab tab = writerPaneController.getTab();
-            tab.setText(selectedItem.getValue());
-            HTMLEditor editor = writerPaneController.getEditor();
-            editor.setHtmlText(diaryInfo.getContent());
+            TabPane tabPane = loader.getRoot();
+            Tab tab;
+            if (((tab = writerPaneService.newTab(path, true)) != null)) {
+                tabPane.getTabs().add(tab);
+            }
             writerPane.setCenter(loader.getRoot());
         }
     }
@@ -114,8 +114,8 @@ public class MainController implements Initializable {
     @FXML
     public void write() {
         FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
-        WriterPaneController writerPaneController = loader.getController();
-        writerPaneController.getTab().setText("今日日记");
+        TabPane tabPane = loader.getRoot();
+        tabPane.getTabs().add(writerPaneService.newTab("今日日记"));
         writerPane.setCenter(loader.getRoot());
 //        writerButton.setDisable(true);
 //        writerButton.setOpacity(0);
