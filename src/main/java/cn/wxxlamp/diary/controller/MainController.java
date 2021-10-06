@@ -16,6 +16,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static cn.wxxlamp.diary.constants.FxmlComponents.WRITER_PANE;
@@ -44,8 +45,6 @@ public class MainController implements Initializable {
 
     @FXML
     private VBox menuBox;
-
-    private final DiaryInfoIoFacade diaryInfoIoFacade = new DiaryInfoIoFacade();
 
     private final WriterPaneService writerPaneService = new WriterPaneService();
 
@@ -100,23 +99,17 @@ public class MainController implements Initializable {
             String path = PathUtils.getAbsolutePath(Integer.valueOf(StringUtils.subString(yearItem.getValue(), "年")),
                     Integer.valueOf(StringUtils.subString(mouthItem.getValue(), "月")),
                     Integer.valueOf(StringUtils.subString(selectedItem.getValue(), "号")));
-            //
-            FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
-            TabPane tabPane = loader.getRoot();
-            Tab tab;
-            if (((tab = writerPaneService.newTab(path, true)) != null)) {
-                tabPane.getTabs().add(tab);
-            }
-            writerPane.setCenter(loader.getRoot());
+            writerPaneService.setTabPane(path, writerPane, writerButton);
         }
     }
 
     @FXML
     public void write() {
-        FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
-        TabPane tabPane = loader.getRoot();
-        tabPane.getTabs().add(writerPaneService.newTab("今日日记"));
-        writerPane.setCenter(loader.getRoot());
+//        FXMLLoader loader = FxmlUtils.getLoader(WRITER_PANE);
+//        TabPane tabPane = loader.getRoot();
+//        tabPane.getTabs().add(writerPaneService.newTab());
+//        writerPane.setCenter(loader.getRoot());
+        writerPaneService.setTabPane(PathUtils.getAbsolutePath(System.currentTimeMillis()), writerPane, writerButton);
 //        writerButton.setDisable(true);
 //        writerButton.setOpacity(0);
     }
