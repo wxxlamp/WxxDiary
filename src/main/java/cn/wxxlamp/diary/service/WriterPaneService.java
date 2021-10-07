@@ -7,6 +7,7 @@ import cn.wxxlamp.diary.util.DateUtils;
 import cn.wxxlamp.diary.util.FxmlUtils;
 import cn.wxxlamp.diary.util.PathUtils;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
@@ -17,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.web.HTMLEditor;
 
 import java.util.List;
+import java.util.Map;
 
 import static cn.wxxlamp.diary.constants.FxmlComponents.WRITER_PANE;
 
@@ -27,15 +29,15 @@ import static cn.wxxlamp.diary.constants.FxmlComponents.WRITER_PANE;
 public class WriterPaneService {
 
     private final DiaryInfoIoFacade facade = new DiaryInfoIoFacade();
-    private static final List<String> REGISTER_TAB = Lists.newArrayList();
+    private static final Map<String, Tab> REGISTER_TAB = Maps.newHashMap();
     private Boolean noSet = true;
 
     public Tab newTab(String path, BorderPane writerPane, JFXButton writerButton) {
         DiaryInfo diaryInfo = getDiaryInfoNotNull(path);
         Integer[] date = DateUtils.getYearMouthDay(diaryInfo.getMetaInfo().getCreateTime());
         String title = PathUtils.getPath(date[0], date[1], date[2]);
-        Tab tab = null;
-        if (!REGISTER_TAB.contains(title)) {
+        Tab tab = REGISTER_TAB.get(title);
+        if (tab == null) {
             HTMLEditor editor = new HTMLEditor();
             editor.setHtmlText(diaryInfo.getContent());
             editor.setOnKeyPressed(e -> {
@@ -43,6 +45,7 @@ public class WriterPaneService {
                     diaryInfo.setContent(editor.getHtmlText());
                     diaryInfo.getMetaInfo().setUpdateTime(System.currentTimeMillis());
                     facade.writeDiaryInfo(diaryInfo, true);
+
                 }
             });
             AnchorPane pane = new AnchorPane(editor);
@@ -60,9 +63,11 @@ public class WriterPaneService {
                 }
 
             });
-            REGISTER_TAB.add(title);
+            REGISTER_TAB.put(title, tab);
+            return tab;
+        } else {
+            return null;
         }
-        return tab;
     }
 
     public void setTabPane(String path, BorderPane writerPane, JFXButton writerButton){
@@ -72,6 +77,10 @@ public class WriterPaneService {
         if (((tab = newTab(path, writerPane, writerButton)) != null)) {
             tabPane.getTabs().add(tab);
         }
+        DiaryInfo diaryInfo = getDiaryInfoNotNull(path);
+        Integer[] date = DateUtils.getYearMouthDay(diaryInfo.getMetaInfo().getCreateTime());
+        String title = PathUtils.getPath(date[0], date[1], date[2]);
+        tabPane.getSelectionModel().select(REGISTER_TAB.get(title));
         if (noSet) {
             writerPane.setCenter(tabPane);
             noSet = false;

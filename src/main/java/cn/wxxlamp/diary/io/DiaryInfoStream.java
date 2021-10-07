@@ -32,8 +32,9 @@ class DiaryInfoStream {
 
     public DiaryInfo readDiaryInfo(String filePath) {
         DiaryInfo diaryInfo = DiaryInfoCache.getDiaryInfo(filePath);
-        if (diaryInfo == null) {
-            String[] inputString = ioStream.read(filePath).split(SPLIT_REGX);
+        String inputStream;
+        if (diaryInfo == null && (inputStream = ioStream.read(filePath)) != null) {
+            String[] inputString = inputStream.split(SPLIT_REGX);
             String metaInfoJson = inputString[0];
             String content = inputString[1];
             diaryInfo = DiaryInfo.builder()
