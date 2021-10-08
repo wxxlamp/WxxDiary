@@ -30,16 +30,29 @@ public class FxmlUtils {
      * @return rootNode
      */
     public static <T> T getNode(String fxml) {
+        return getNode(fxml, true);
+    }
+
+    /**
+     * 获取xml文件Node
+     * @param fxml xml文件
+     * @param <T> 对应的RootNodeType
+     * @param needCache 是否需要缓存，如果不需要缓存，则会重新加载xml文件，同时，不会将该文件写入已有缓存
+     * @return rootNode
+     */
+    public static <T> T getNode(String fxml, boolean needCache) {
         FXMLLoader fxmlLoader = CACHE.get(fxml);
         T node = null;
-        if (fxmlLoader == null) {
+        if (fxmlLoader == null || !needCache) {
             fxmlLoader = new FXMLLoader(FxmlUtils.class.getResource("/fxml/" + fxml + ".fxml"));
             try {
                 node = fxmlLoader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            CACHE.put(fxml, fxmlLoader);
+            if (needCache) {
+                CACHE.put(fxml, fxmlLoader);
+            }
         }
         return node;
     }

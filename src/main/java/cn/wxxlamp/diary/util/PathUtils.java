@@ -1,6 +1,7 @@
 package cn.wxxlamp.diary.util;
 
 import cn.wxxlamp.diary.exception.DailyException;
+import cn.wxxlamp.diary.model.DiaryDate;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,8 +40,8 @@ public class PathUtils {
      * @return 绝对路径
      */
     public static String getAbsolutePath(long timestamp) {
-        Integer[] date = DateUtils.getYearMouthDay(timestamp);
-        return PathUtils.getAbsolutePath(date[0],date[1],date[2]);
+        DiaryDate date = DateUtils.getDate(timestamp);
+        return PathUtils.getAbsolutePath(date);
     }
 
     /**
@@ -49,19 +50,40 @@ public class PathUtils {
      * @param mouth 月
      * @param day 日
      * @return 绝对路径
+     * @deprecated {@link #getAbsolutePath(DiaryDate)}
      */
     public static String getAbsolutePath(Integer year, Integer mouth, Integer day) {
-        return getDir() + File.separator + getPath(year, mouth, day);
+        return getDir() + File.separator + getRelativePath(year, mouth, day);
     }
+
+    /**
+     * 获取绝对路径
+     * @param date 日期
+     * @return 绝对路径
+     */
+    public static String getAbsolutePath(DiaryDate date) {
+        return getDir() + File.separator + getRelativePath(date);
+    }
+
     /**
      * 通过年月日来获取文件相对路径
      * @param year 年
      * @param mouth 月
      * @param day 日
      * @return 相对路径
+     * @deprecated {@link #getRelativePath(DiaryDate)}
      */
-    public static String getPath(Integer year, Integer mouth, Integer day) {
+    public static String getRelativePath(Integer year, Integer mouth, Integer day) {
         return year + File.separator + mouth + File.separator + day;
+    }
+
+    /**
+     * 获得相对路径
+     * @param date 日期
+     * @return 相对路径
+     */
+    public static String getRelativePath(DiaryDate date) {
+        return date.getYear() + File.separator + date.getMouth() + File.separator + date.getDay();
     }
 
     /**

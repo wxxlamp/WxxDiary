@@ -1,6 +1,9 @@
 package cn.wxxlamp.diary.controller;
 
+import cn.wxxlamp.diary.constants.UiText;
+import cn.wxxlamp.diary.model.DiaryDate;
 import cn.wxxlamp.diary.service.WriterPaneService;
+import cn.wxxlamp.diary.util.DateUtils;
 import cn.wxxlamp.diary.util.PathUtils;
 import cn.wxxlamp.diary.util.StringUtils;
 import com.jfoenix.controls.JFXButton;
@@ -10,9 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
-import java.io.File;
 import java.net.URL;
-import java.util.Comparator;
 import java.util.ResourceBundle;
 
 
@@ -40,9 +41,6 @@ public class MainController implements Initializable {
     @FXML
     private VBox menuBox;
 
-    @FXML
-    private TabPane tabPane;
-
     private final WriterPaneService writerPaneService = new WriterPaneService();
 
     @Override
@@ -67,20 +65,7 @@ public class MainController implements Initializable {
      * 加载日记
      */
     private void initDir() {
-        TreeItem<String> rootItem = new TreeItem<>("日记目录");
-        PathUtils.getSubFileName(PathUtils.getDir()).stream().sorted(Comparator.reverseOrder()).forEach(y -> {
-            TreeItem<String> yearItem = new TreeItem<>(y + "年");
-            PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y).stream().sorted(Comparator.reverseOrder()).forEach(m -> {
-                TreeItem<String> mouthItem = new TreeItem<>(m + "月");
-                PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y + File.separator + m).stream().sorted(Comparator.reverseOrder()).forEach(d -> {
-                    TreeItem<String> dayItem = new TreeItem<>(d + "号");
-                    mouthItem.getChildren().add(dayItem);
-                });
-                yearItem.getChildren().add(mouthItem);
-            });
-            rootItem.getChildren().add(yearItem);
-        });
-        treeView.setRoot(rootItem);
+        treeView.setRoot(writerPaneService.getDiaryDir());
     }
 
     @FXML
@@ -90,19 +75,21 @@ public class MainController implements Initializable {
         if (selectedItem == null) {
             return;
         }
-        if (selectedItem.getValue().endsWith("号")) {
+        if (selectedItem.getValue().endsWith(UiText.DAY)) {
             TreeItem<String> mouthItem = selectedItem.getParent();
             TreeItem<String> yearItem = mouthItem.getParent();
-            String path = PathUtils.getAbsolutePath(Integer.valueOf(StringUtils.subString(yearItem.getValue(), "年")),
-                    Integer.valueOf(StringUtils.subString(mouthItem.getValue(), "月")),
-                    Integer.valueOf(StringUtils.subString(selectedItem.getValue(), "号")));
-            writerPaneService.setTabPane(path, writerPane, writerButton);
+            DiaryDate date = DiaryDate.builder()
+                    .year(Integer.valueOf(StringUtils.subString(yearItem.getValue(), UiText.YEAR)))
+                    .mouth(Integer.valueOf(StringUtils.subString(mouthItem.getValue(), UiText.MOUTH)))
+                    .day(Integer.valueOf(StringUtils.subString(selectedItem.getValue(), UiText.DAY)))
+                    .build();
+            writerPaneService.setTabPane(date, writerPane, writerButton);
         }
     }
 
     @FXML
     public void write() {
         writerPaneService.setTabPane(
-                PathUtils.getAbsolutePath(System.currentTimeMillis()), writerPane, writerButton);
+                DateUtils.getDate(System.currentTimeMillis()), writerPane, writerButton);
     }
 }
