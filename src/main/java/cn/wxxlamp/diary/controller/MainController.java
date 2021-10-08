@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 
@@ -39,6 +40,9 @@ public class MainController implements Initializable {
     @FXML
     private VBox menuBox;
 
+    @FXML
+    private TabPane tabPane;
+
     private final WriterPaneService writerPaneService = new WriterPaneService();
 
     @Override
@@ -64,11 +68,11 @@ public class MainController implements Initializable {
      */
     private void initDir() {
         TreeItem<String> rootItem = new TreeItem<>("日记目录");
-        PathUtils.getSubFileName(PathUtils.getDir()).stream().sorted().forEach(y -> {
+        PathUtils.getSubFileName(PathUtils.getDir()).stream().sorted(Comparator.reverseOrder()).forEach(y -> {
             TreeItem<String> yearItem = new TreeItem<>(y + "年");
-            PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y).stream().sorted().forEach(m -> {
+            PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y).stream().sorted(Comparator.reverseOrder()).forEach(m -> {
                 TreeItem<String> mouthItem = new TreeItem<>(m + "月");
-                PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y + File.separator + m).stream().sorted().forEach(d -> {
+                PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y + File.separator + m).stream().sorted(Comparator.reverseOrder()).forEach(d -> {
                     TreeItem<String> dayItem = new TreeItem<>(d + "号");
                     mouthItem.getChildren().add(dayItem);
                 });
