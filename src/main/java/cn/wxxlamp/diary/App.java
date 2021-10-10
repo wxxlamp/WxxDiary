@@ -5,7 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import static cn.wxxlamp.diary.constants.FxmlComponents.MAIN;
+import static cn.wxxlamp.diary.constants.FxmlNames.MAIN;
 
 /**
  * @author wxxlamp

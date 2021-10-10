@@ -1,6 +1,7 @@
 package cn.wxxlamp.diary.service;
 
 import cn.wxxlamp.diary.constants.UiText;
+import cn.wxxlamp.diary.controller.BaseFxComponent;
 import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
 import cn.wxxlamp.diary.model.DiaryDate;
 import cn.wxxlamp.diary.model.DiaryInfo;
@@ -12,6 +13,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -28,19 +30,26 @@ import java.util.Map;
  */
 public class WriterPaneService {
 
+    private final BaseFxComponent component;
+
     private final DiaryInfoIoFacade facade = new DiaryInfoIoFacade();
     private static final Map<String, Tab> REGISTER_TAB = Maps.newHashMap();
     private Boolean noSet = true;
-    private final TabPane tabPane = new TabPane();
+    private boolean flash = true;
+
+    public WriterPaneService(BaseFxComponent component) {
+        this.component = component;
+    }
 
     /**
      * 为日记创建一个tab
      * @param date 日期
-     * @param writerPane 写入模块
-     * @param writerButton 创建按钮
      * @return left=tab, right=是否存在
      */
-    public Pair<Tab, Boolean> newTab(DiaryDate date, BorderPane writerPane, JFXButton writerButton) {
+    public Pair<Tab, Boolean> newTab(DiaryDate date) {
+        BorderPane writerPane = component.getWriterPane();
+        JFXButton writerButton = component.getWriterButton();
+        TreeView<String> treeView = component.getTreeView();
         DiaryInfo diaryInfo = getDiaryInfoNotNull(PathUtils.getAbsolutePath(date));
         String title = PathUtils.getRelativePath(date);
         Tab tab = REGISTER_TAB.get(title);
@@ -54,7 +63,11 @@ public class WriterPaneService {
                     diaryInfo.setContent(editor.getHtmlText());
                     diaryInfo.getMetaInfo().setUpdateTime(System.currentTimeMillis());
                     facade.writeDiaryInfo(diaryInfo, true);
-
+                    // 如果是当天的第一次保存，则刷新目录
+                    if (date.equals(DateUtils.getDate(System.currentTimeMillis())) && flash) {
+                        flash = false;
+                        treeView.setRoot(this.getDiaryDir());
+                    }
                 }
             });
             AnchorPane pane = new AnchorPane(editor);
@@ -76,8 +89,10 @@ public class WriterPaneService {
         return new Pair<>(tab, registeredTab);
     }
 
-    public void setTabPane(DiaryDate date, BorderPane writerPane, JFXButton writerButton){
-        Pair<Tab, Boolean> pair = newTab(date, writerPane, writerButton);
+    public void setTabPane(DiaryDate date){
+        TabPane tabPane = component.getTabPane();
+        BorderPane writerPane = component.getWriterPane();
+        Pair<Tab, Boolean> pair = newTab(date);
         if (!pair.getValue()) {
             tabPane.getTabs().add(pair.getKey());
         }
