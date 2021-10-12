@@ -8,5 +8,5 @@ public interface FxmlNames {
 
     String MAIN = "main";
 
-    String WRITER_TAB = "writer_tab";
+    String WRITER = "writer";
 }

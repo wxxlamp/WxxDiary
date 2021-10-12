@@ -2,6 +2,8 @@ package cn.wxxlamp.diary.util;
 
 import com.google.common.collect.Maps;
 import javafx.fxml.FXMLLoader;
+import lombok.Builder;
+import lombok.Data;
 
 import java.io.IOException;
 import java.util.Map;
@@ -18,9 +20,19 @@ public class FxmlUtils {
      * @param fxml xml文件
      * @return 加载器
      */
-    public static FXMLLoader getLoader(String fxml) {
-        getNode(fxml);
-        return CACHE.get(fxml);
+    public static FXMLLoader getLoader(String fxml, boolean needCache) {
+        if (needCache) {
+            getNode(fxml);
+            return CACHE.get(fxml);
+        } else {
+            FXMLLoader fxmlLoader = new FXMLLoader(FxmlUtils.class.getResource("/fxml/" + fxml + ".fxml"));
+            try {
+                fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return fxmlLoader;
+        }
     }
 
     /**

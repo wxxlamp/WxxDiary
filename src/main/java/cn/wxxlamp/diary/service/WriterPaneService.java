@@ -1,21 +1,24 @@
 package cn.wxxlamp.diary.service;
 
+import cn.wxxlamp.diary.constants.FxmlNames;
 import cn.wxxlamp.diary.constants.UiText;
-import cn.wxxlamp.diary.controller.BaseFxComponent;
+import cn.wxxlamp.diary.controller.MainController;
+import cn.wxxlamp.diary.controller.WriterController;
 import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
 import cn.wxxlamp.diary.model.DiaryDate;
 import cn.wxxlamp.diary.model.DiaryInfo;
 import cn.wxxlamp.diary.model.DiaryMetaInfo;
 import cn.wxxlamp.diary.util.DateUtils;
+import cn.wxxlamp.diary.util.FxmlUtils;
 import cn.wxxlamp.diary.util.PathUtils;
 import com.google.common.collect.Maps;
 import com.jfoenix.controls.JFXButton;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.HTMLEditor;
 import javafx.util.Pair;
@@ -30,15 +33,23 @@ import java.util.Map;
  */
 public class WriterPaneService {
 
-    private final BaseFxComponent component;
+    private final MainController mainComponent;
 
-    private final DiaryInfoIoFacade facade = new DiaryInfoIoFacade();
+    private final DiaryInfoIoFacade facade;
+
     private static final Map<String, Tab> REGISTER_TAB = Maps.newHashMap();
+    /**
+     * 是否切换编辑面板
+     */
     private Boolean noSet = true;
+    /**
+     * 是否刷新目录
+     */
     private boolean flash = true;
 
-    public WriterPaneService(BaseFxComponent component) {
-        this.component = component;
+    public WriterPaneService(MainController component) {
+        this.mainComponent = component;
+        facade = new DiaryInfoIoFacade();
     }
 
     /**
@@ -47,16 +58,28 @@ public class WriterPaneService {
      * @return left=tab, right=是否存在
      */
     public Pair<Tab, Boolean> newTab(DiaryDate date) {
-        BorderPane writerPane = component.getWriterPane();
-        JFXButton writerButton = component.getWriterButton();
-        TreeView<String> treeView = component.getTreeView();
+        BorderPane writerPane = mainComponent.getWritePane();
+        JFXButton writerButton = mainComponent.getWriteButton();
+        TreeView<String> treeView = mainComponent.getDir();
+
         DiaryInfo diaryInfo = getDiaryInfoNotNull(PathUtils.getAbsolutePath(date));
         String title = PathUtils.getRelativePath(date);
         Tab tab = REGISTER_TAB.get(title);
         boolean registeredTab = true;
         if (tab == null) {
+            FXMLLoader tabLoader = FxmlUtils.getLoader(FxmlNames.WRITER, false);
+            tab = tabLoader.getRoot();
+            tab.setText(title);
+            tab.setOnCloseRequest(e -> {
+                REGISTER_TAB.remove(((Tab)e.getSource()).getText());
+                if (REGISTER_TAB.size() == 0) {
+                    writerPane.setCenter(writerButton);
+                    noSet = true;
+                }
+            });
+            WriterController writerComponent = tabLoader.getController();
             registeredTab = false;
-            HTMLEditor editor = new HTMLEditor();
+            HTMLEditor editor = writerComponent.getEditor();
             editor.setHtmlText(diaryInfo.getContent());
             editor.setOnKeyPressed(e -> {
                 if (e.isControlDown() & e.getCode() == KeyCode.S) {
@@ -66,22 +89,9 @@ public class WriterPaneService {
                     // 如果是当天的第一次保存，则刷新目录
                     if (date.equals(DateUtils.getDate(System.currentTimeMillis())) && flash) {
                         flash = false;
-                        treeView.setRoot(this.getDiaryDir());
+                        treeView.setRoot(getDiaryDir());
+//                        treeView.getSelectionModel().select();
                     }
-                }
-            });
-            AnchorPane pane = new AnchorPane(editor);
-            AnchorPane.setBottomAnchor(editor, 0D);
-            AnchorPane.setTopAnchor(editor, 0D);
-            AnchorPane.setLeftAnchor(editor, 0D);
-            AnchorPane.setRightAnchor(editor, 0D);
-            tab = new Tab(title);
-            tab.setContent(pane);
-            tab.setOnCloseRequest(e -> {
-                REGISTER_TAB.remove(((Tab)e.getSource()).getText());
-                if (REGISTER_TAB.size() == 0) {
-                    writerPane.setCenter(writerButton);
-                    noSet = true;
                 }
             });
             REGISTER_TAB.put(title, tab);
@@ -90,8 +100,9 @@ public class WriterPaneService {
     }
 
     public void setTabPane(DiaryDate date){
-        TabPane tabPane = component.getTabPane();
-        BorderPane writerPane = component.getWriterPane();
+        TabPane tabPane = mainComponent.getTabPane();
+        BorderPane writerPane = mainComponent.getWritePane();
+
         Pair<Tab, Boolean> pair = newTab(date);
         if (!pair.getValue()) {
             tabPane.getTabs().add(pair.getKey());
