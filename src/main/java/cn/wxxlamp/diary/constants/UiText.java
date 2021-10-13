@@ -13,4 +13,6 @@ public interface UiText {
     String MOUTH = "月";
 
     String DAY = "号";
+
+    String[] FEELING_MAP = new String[]{"都行", "蓝瘦", "差劲","一般", "开心", "起飞"};
 }

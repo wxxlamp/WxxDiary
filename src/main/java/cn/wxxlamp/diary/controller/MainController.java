@@ -35,7 +35,7 @@ public class MainController implements Initializable {
     private BorderPane writePane;
 
     @FXML
-    private TreeView<String> dir;
+    private TreeView<String> dirTree;
 
     @FXML
     private DatePicker datePicker;
@@ -55,7 +55,7 @@ public class MainController implements Initializable {
 
     @FXML
     private void onTreeViewClicked() {
-        TreeItem<String> selectedItem = dir.getSelectionModel().getSelectedItem();
+        TreeItem<String> selectedItem = dirTree.getSelectionModel().getSelectedItem();
         // 触到箭头则是null
         if (selectedItem == null) {
             return;
@@ -86,7 +86,7 @@ public class MainController implements Initializable {
 
         datePicker.prefHeightProperty().bind(dirMenu.heightProperty().multiply(0.06));
         datePicker.prefWidthProperty().bind(dirMenu.widthProperty());
-        dir.prefHeightProperty().bind(dirMenu.heightProperty().multiply(0.94));
+        dirTree.prefHeightProperty().bind(dirMenu.heightProperty().multiply(0.94));
 
         writeButton.prefWidthProperty().bind(writePane.widthProperty().multiply(0.2));
         writeButton.prefHeightProperty().bind(writePane.heightProperty().multiply(0.06));
@@ -96,6 +96,6 @@ public class MainController implements Initializable {
      * 加载日记
      */
     private void initDir() {
-        dir.setRoot(writerPaneService.getDiaryDir());
+        dirTree.setRoot(writerPaneService.getDiaryDir());
     }
 }

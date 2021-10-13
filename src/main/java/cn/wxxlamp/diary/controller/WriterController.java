@@ -11,6 +11,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
+import javafx.util.Pair;
+import javafx.util.StringConverter;
 import lombok.Getter;
 
 import java.net.URL;
@@ -48,11 +50,26 @@ public class WriterController implements Initializable {
     private JFXButton saveButton;
 
     @FXML
-    private ChoiceBox<String> feelingChoice;
+    private ChoiceBox<Pair<String, Byte>> feelingChoice;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCustomProperties();
+        initComponentSetting();
+    }
+
+    private void initComponentSetting() {
+        feelingChoice.setConverter(new StringConverter<Pair<String,Byte>>() {
+            @Override
+            public String toString(Pair<String, Byte> object) {
+                return object.getKey();
+            }
+
+            @Override
+            public Pair<String, Byte> fromString(String string) {
+                return null;
+            }
+        });
     }
 
     /**
