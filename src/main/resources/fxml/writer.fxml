@@ -34,10 +34,14 @@
                                 </ChoiceBox>
                             </children>
                         </HBox>
-                        <ScrollPane fx:id="imgPane"/>
+                        <ScrollPane >
+                            <content>
+                                <VBox fx:id="imgPane"/>
+                            </content>
+                        </ScrollPane>
                         <HBox fx:id="operatePane" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <JFXButton fx:id="uploadButton" text="上传图片" textAlignment="CENTER">
+                                <JFXButton fx:id="uploadButton" onAction="#uploadImg" text="上传图片" textAlignment="CENTER">
                                     <HBox.margin>
                                         <Insets left="20.0" right="20.0"/>
                                     </HBox.margin>

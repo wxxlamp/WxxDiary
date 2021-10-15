@@ -15,9 +15,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 import javafx.util.Pair;
 
@@ -26,6 +30,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static cn.wxxlamp.diary.constants.UiText.FEELING_MAP;
 
@@ -49,6 +55,9 @@ public class WriterPaneService {
      */
     private boolean flash = true;
 
+    /**
+     * 用户心情表
+     */
     private final List<Pair<String, Byte>> feelingList = ImmutableList.of(
             new Pair<>(FEELING_MAP[0], (byte)0),
             new Pair<>(FEELING_MAP[1], (byte)1),
@@ -137,6 +146,7 @@ public class WriterPaneService {
         WriterController writerComponent = tabLoader.getController();
         HTMLEditor editor = writerComponent.getEditor();
         ChoiceBox<Pair<String, Byte>> feelingChoice = writerComponent.getFeelingChoice();
+        VBox imgPane = writerComponent.getImgPane();
 
         // 设置tab
         tab.setText(title);
@@ -155,6 +165,7 @@ public class WriterPaneService {
                 diaryInfo.setContent(editor.getHtmlText());
                 diaryInfo.getMetaInfo().setUpdateTime(System.currentTimeMillis());
                 diaryInfo.getMetaInfo().setFeeling(feelingChoice.getValue().getValue());
+                diaryInfo.getMetaInfo().setImgLinks(imgPane.getChildren().stream().map(Node::getId).collect(Collectors.toList()));
                 facade.writeDiaryInfo(diaryInfo, true);
                 // 如果是当天的第一次保存，则刷新目录
                 if (date.equals(DateUtils.getDate(System.currentTimeMillis())) && flash) {
@@ -166,6 +177,16 @@ public class WriterPaneService {
         // 设置心情栏
         feelingChoice.getItems().addAll(feelingList);
         Optional.ofNullable(diaryInfo.getMetaInfo().getFeeling()).ifPresent(e -> feelingChoice.setValue(new Pair<>(FEELING_MAP[e], e)));
+        // 设置图片
+        Optional.ofNullable(diaryInfo.getMetaInfo().getImgLinks()).ifPresent(links ->
+                links.forEach(uri -> {
+                    writerComponent.initialize(null, null);
+                    Image image = new Image(uri, imgPane.getWidth(), 0L, true, true);
+                    ImageView imageView = new ImageView(image);
+                    imageView.setFitWidth(imgPane.getWidth());
+                    imageView.setId(uri);
+                    imgPane.getChildren().add(imageView);
+                }));
         return tab;
     }
 }
