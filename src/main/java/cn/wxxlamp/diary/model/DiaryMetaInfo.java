@@ -48,12 +48,13 @@ public class DiaryMetaInfo {
     private Short weather;
 
     /**
+     * TODO 相对路径
      * 图片链接
      */
     private List<String> imgLinks;
 
     /**
-     * 文本路径
+     * 文本路径, todo 相对路径
      * wd/data/2021/08/23
      */
     private String filePath;

@@ -42,29 +42,10 @@ public class ImgUtils {
             }
             String suffix = uri.indexOf(JPG) == uri.length() - JPG.length() ? JPG : PNG;
             String newImgPath = ownerPath + "_" + PathUtils.buildRandomPath(4) +  suffix;
-            copyFile(oldFile, new File(newImgPath));
-            return newImgPath;
+            File newFile = new File(newImgPath);
+            FileUtils.copyFile(oldFile, newFile);
+            return newFile.toURI().toString();
         }).collect(Collectors.toList());
     }
 
-    private static void copyFile(File oldFile, File newFile) {
-
-        try(InputStream is = new FileInputStream(oldFile);
-            OutputStream os =  new FileOutputStream(newFile);
-            BufferedInputStream bis = new BufferedInputStream(is);
-            BufferedOutputStream bos =  new BufferedOutputStream(os)) {
-
-            byte[]buffer = new byte[2048];
-            int count = bis.read(buffer);
-            while(count != -1){
-                //使用缓冲流写数据
-                bos.write(buffer,0,count);
-                //刷新
-                bos.flush();
-                count = bis.read(buffer);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

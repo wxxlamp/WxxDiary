@@ -1,5 +1,5 @@
 .writer_pane {
-    -fx-background-image: url("../img/bg.jpg");
+    -fx-background-image: url("../img/background.png");
     -fx-background-position: center center;
     -fx-background-repeat: stretch;
     -fx-background-color:  transparent;
@@ -9,7 +9,21 @@
     -fx-text-fill: black;
     -fx-background-color: #00ffea;
 }
+.default_background_img {
+    -fx-background-color: white;
+    -fx-border-width: 0px;
+    -fx-background-image: url("../img/background.png");
+    -fx-background-position: center center;
+    -fx-background-repeat: repeat;
+}
+
 .default_background {
     -fx-background-color: white;
     -fx-border-width: 0px;
 }
+
+/*.tree-view {*/
+/*    -fx-background-image: url("../img/background.png");*/
+/*    -fx-background-position: center center;*/
+/*    -fx-background-repeat: repeat;*/
+/*}*/

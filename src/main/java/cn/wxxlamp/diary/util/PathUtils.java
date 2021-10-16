@@ -1,10 +1,8 @@
 package cn.wxxlamp.diary.util;
 
-import cn.wxxlamp.diary.exception.DiaryException;
 import cn.wxxlamp.diary.model.DiaryDate;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -103,30 +101,6 @@ public class PathUtils {
         return dateList;
     }
 
-    /**
-     * 如果该path下的目录不存在，则创建目录以及对应文件
-     * @param path 目录
-     * @return path
-     */
-    public static String createIfNotExit(String path) {
-        File dayFile = new File(path);
-        File mouthFolder;
-        boolean success = true;
-        if (!dayFile.exists()) {
-            if (!(mouthFolder = dayFile.getParentFile()).exists()) {
-                success = mouthFolder.mkdirs();
-            }
-            try {
-                success = dayFile.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!success) {
-           throw  new DiaryException(DiaryException.DailyExceptionEnum.FILE_OPEN_ERROR);
-        }
-        return path;
-    }
 
     public static String buildRandomPath(int length) {
         StringBuilder sb = new StringBuilder();

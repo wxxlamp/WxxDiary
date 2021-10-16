@@ -13,9 +13,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 
@@ -51,7 +54,7 @@ public class MainController implements Initializable {
     private MenuBar settingMenu;
 
     @FXML
-    private MenuItem changeUrl;
+    private MenuItem changeUrlItem;
 
     private final TabPane tabPane = new TabPane();
 
@@ -61,6 +64,8 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initCustomProperties();
         initDir();
+
+
     }
 
     @FXML
@@ -87,6 +92,13 @@ public class MainController implements Initializable {
         writerPaneService.setTabPane(DateUtils.getDate(System.currentTimeMillis()));
     }
 
+    @FXML
+    public void changeUrl() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        Optional.ofNullable(directoryChooser.showDialog(new Stage())).ifPresent(dir -> {
+
+        });
+    }
     /**
      * 绑定尺寸
      */

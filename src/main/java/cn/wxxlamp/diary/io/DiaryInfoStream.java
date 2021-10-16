@@ -1,7 +1,9 @@
 package cn.wxxlamp.diary.io;
 
+import cn.wxxlamp.diary.exception.DiaryException;
 import cn.wxxlamp.diary.model.DiaryInfo;
 import cn.wxxlamp.diary.model.DiaryMetaInfo;
+import cn.wxxlamp.diary.model.Settings;
 import com.alibaba.fastjson.JSONObject;
 
 /**
@@ -43,6 +45,18 @@ class DiaryInfoStream {
             DiaryInfoCache.putDiaryInfo(filePath, diaryInfo);
         }
         return diaryInfo;
+    }
+
+    public Settings readSettings(String filePath) {
+        String inputStream;
+        if ((inputStream = ioStream.read(filePath)) != null) {
+            return JSONObject.parseObject(inputStream, Settings.class);
+        }
+        throw new DiaryException(DiaryException.DailyExceptionEnum.SETTING_FILE_NOT_FOUND);
+    }
+
+    public void writeSettings(Settings settings, String path) {
+        ioStream.write(settings.toString(), path);
     }
 
 }

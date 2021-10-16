@@ -24,5 +24,10 @@ public class DiaryException extends RuntimeException{
          * 系统异常
          */
         SYS_ERROR,
+
+        /**
+         * 未找到配置文件
+         */
+        SETTING_FILE_NOT_FOUND,
     }
 }
