@@ -1,6 +1,7 @@
 package cn.wxxlamp.diary.io;
 
 import cn.wxxlamp.diary.model.DiaryInfo;
+import com.google.common.collect.Maps;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +12,7 @@ import java.util.Map;
  */
 class DiaryInfoCache {
 
-    private static final Map<String, DiaryInfo> DIARY_INFO_CACHE = new HashMap<>(16);
+    private static final Map<String, DiaryInfo> DIARY_INFO_CACHE = Maps.newHashMapWithExpectedSize(16);
 
 
     public static DiaryInfo getDiaryInfo(String path) {

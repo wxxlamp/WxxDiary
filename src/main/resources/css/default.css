@@ -4,8 +4,8 @@
     -fx-background-repeat: stretch;
     -fx-background-color:  transparent;
 }
-.write_button {
+.all_button {
     -fx-border-color: #00ffea;
     -fx-text-fill: black;
-    -fx-background-color: #00ffea
+    -fx-background-color: #00ffea;
 }

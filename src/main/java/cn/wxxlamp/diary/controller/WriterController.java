@@ -1,14 +1,11 @@
 package cn.wxxlamp.diary.controller;
 
+import cn.wxxlamp.diary.util.ImgUtils;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TabPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -19,7 +16,6 @@ import javafx.util.Pair;
 import javafx.util.StringConverter;
 import lombok.Getter;
 
-import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -61,6 +57,7 @@ public class WriterController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCustomProperties();
+        initPreWidthAndHeight();
         initComponentSetting();
     }
 
@@ -71,13 +68,7 @@ public class WriterController implements Initializable {
                 new FileChooser.ExtensionFilter("JPG", "*.jpg"),
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
-        Optional.ofNullable(fileChooser.showOpenDialog(new Stage())).ifPresent(file -> {
-            Image image = new Image(file.toURI().toString(), imgPane.getWidth(), 0L, true, true);
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(imgPane.getWidth());
-            imageView.setId(file.toURI().toString());
-            imgPane.getChildren().add(imageView);
-        });
+        Optional.ofNullable(fileChooser.showOpenDialog(new Stage())).ifPresent(file -> ImgUtils.buildImgView(file.toURI().toString(), imgPane));
     }
 
     private void initComponentSetting() {
@@ -102,8 +93,9 @@ public class WriterController implements Initializable {
         editMenu.prefWidthProperty().bind(anchorPane.widthProperty().multiply(0.3));
 
         feelingMenu.prefHeightProperty().bind(editMenu.heightProperty().multiply(0.1));
-        imgPane.prefHeightProperty().bind(editMenu.heightProperty().multiply(0.8));
-        imgPane.prefWidthProperty().bind(editMenu.widthProperty());
+        imgPane.prefHeightProperty().bind(editMenu.heightProperty().multiply(0.8).multiply(0.99));
+        imgPane.prefWidthProperty().bind(editMenu.widthProperty().multiply(0.99));
+
         operatePane.prefHeightProperty().bind(editMenu.heightProperty().multiply(0.1));
 
         feelingChoice.prefWidthProperty().bind(feelingMenu.widthProperty().multiply(0.5));
@@ -114,5 +106,10 @@ public class WriterController implements Initializable {
         saveButton.prefWidthProperty().bind(operatePane.widthProperty().multiply(0.3));
         HBox.setMargin(uploadButton, new Insets(10, 10, 10, 30));
         HBox.setMargin(saveButton, new Insets(10, 30, 10, 10));
+    }
+
+
+    private void initPreWidthAndHeight() {
+//        imgPane.setPrefWidth(anchorPane.getWidth() * 0.3);
     }
 }

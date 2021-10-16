@@ -5,22 +5,21 @@
 <?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="1100.0" stylesheets="@../css/default.css"
-            xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="cn.wxxlamp.diary.controller.MainController">
+<AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="1100.0"
+            stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.MainController">
     <children>
-        <VBox fx:id="dirMenu" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+        <VBox fx:id="dirMenu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <JFXDatePicker fx:id="datePicker" editable="false"/>
-                <JFXTreeView fx:id="dirTree" styleClass="writer_pane" onMouseClicked="#onTreeViewClicked"/>
+                <JFXDatePicker fx:id="datePicker" editable="false" opacity="0.7"/>
+                <JFXTreeView fx:id="dirTree" onMouseClicked="#onTreeViewClicked"/>
             </children>
         </VBox>
-        <BorderPane fx:id="writePane" styleClass="writer_pane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"
-                    AnchorPane.bottomAnchor="0.0">
+        <BorderPane fx:id="writePane" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
             <center>
                 <JFXButton fx:id="writeButton" onAction="#write" prefHeight="41.88" prefWidth="153.0"
-                           styleClass="write_button" text="Write Now !" textAlignment="CENTER"
-                           BorderPane.alignment="CENTER">
+                           styleClass="all_button" text="Write Now !" textAlignment="CENTER" BorderPane.alignment="CENTER">
                     <BorderPane.margin>
                         <Insets/>
                     </BorderPane.margin>

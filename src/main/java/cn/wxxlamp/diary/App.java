@@ -23,6 +23,7 @@ public class App extends Application {
         stage.setTitle("wxx diary");
         Scene scene = new Scene(FxmlUtils.getNode(MAIN));
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 }

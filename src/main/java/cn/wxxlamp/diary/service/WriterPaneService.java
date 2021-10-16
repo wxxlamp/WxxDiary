@@ -10,6 +10,7 @@ import cn.wxxlamp.diary.model.DiaryInfo;
 import cn.wxxlamp.diary.model.DiaryMetaInfo;
 import cn.wxxlamp.diary.util.DateUtils;
 import cn.wxxlamp.diary.util.FxmlUtils;
+import cn.wxxlamp.diary.util.ImgUtils;
 import cn.wxxlamp.diary.util.PathUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
@@ -17,8 +18,6 @@ import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -30,7 +29,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static cn.wxxlamp.diary.constants.UiText.FEELING_MAP;
@@ -165,7 +163,8 @@ public class WriterPaneService {
                 diaryInfo.setContent(editor.getHtmlText());
                 diaryInfo.getMetaInfo().setUpdateTime(System.currentTimeMillis());
                 diaryInfo.getMetaInfo().setFeeling(feelingChoice.getValue().getValue());
-                diaryInfo.getMetaInfo().setImgLinks(imgPane.getChildren().stream().map(Node::getId).collect(Collectors.toList()));
+                List<String> newImgLinks = ImgUtils.buildCopyImg(diaryInfo.getMetaInfo().getFilePath(), imgPane.getChildren().stream().map(Node::getId).collect(Collectors.toList()));
+                diaryInfo.getMetaInfo().setImgLinks(newImgLinks);
                 facade.writeDiaryInfo(diaryInfo, true);
                 // 如果是当天的第一次保存，则刷新目录
                 if (date.equals(DateUtils.getDate(System.currentTimeMillis())) && flash) {
@@ -174,19 +173,14 @@ public class WriterPaneService {
                 }
             }
         });
+
         // 设置心情栏
         feelingChoice.getItems().addAll(feelingList);
         Optional.ofNullable(diaryInfo.getMetaInfo().getFeeling()).ifPresent(e -> feelingChoice.setValue(new Pair<>(FEELING_MAP[e], e)));
         // 设置图片
         Optional.ofNullable(diaryInfo.getMetaInfo().getImgLinks()).ifPresent(links ->
-                links.forEach(uri -> {
-                    writerComponent.initialize(null, null);
-                    Image image = new Image(uri, imgPane.getWidth(), 0L, true, true);
-                    ImageView imageView = new ImageView(image);
-                    imageView.setFitWidth(imgPane.getWidth());
-                    imageView.setId(uri);
-                    imgPane.getChildren().add(imageView);
-                }));
+                links.forEach(uri -> ImgUtils.buildImgView(uri, imgPane)));
+
         return tab;
     }
 }

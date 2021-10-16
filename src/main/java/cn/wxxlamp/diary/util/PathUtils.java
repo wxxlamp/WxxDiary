@@ -1,6 +1,6 @@
 package cn.wxxlamp.diary.util;
 
-import cn.wxxlamp.diary.exception.DailyException;
+import cn.wxxlamp.diary.exception.DiaryException;
 import cn.wxxlamp.diary.model.DiaryDate;
 
 import java.io.File;
@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /**
@@ -122,8 +123,17 @@ public class PathUtils {
             }
         }
         if (!success) {
-           throw  new DailyException(DailyException.DailyExceptionEnum.FILE_OPEN_ERROR);
+           throw  new DiaryException(DiaryException.DailyExceptionEnum.FILE_OPEN_ERROR);
         }
         return path;
+    }
+
+    public static String buildRandomPath(int length) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < length; i ++) {
+            Random ra =new Random();
+            sb.append(ra.nextInt(10));
+        }
+        return sb.toString();
     }
 }
