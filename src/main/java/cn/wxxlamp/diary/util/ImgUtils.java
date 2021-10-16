@@ -24,7 +24,7 @@ public class ImgUtils {
 
     public static void buildImgView(String uri, VBox imgPane) {
         // TODO 图片尺寸随着窗体动态变化
-        Image image = new Image(uri, imgPane.getWidth() <= 0 ? 260 : imgPane.getWidth(), 0L, true, true);
+        Image image = new Image(uri, imgPane.getWidth() <= 0 ? 260 : imgPane.getWidth() * 0.99, 0L, true, true);
         ImageView imageView = new ImageView(image);
         imageView.fitWidthProperty().bind(image.widthProperty());
         imageView.setId(uri);

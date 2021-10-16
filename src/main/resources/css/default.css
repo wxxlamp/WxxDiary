@@ -9,3 +9,7 @@
     -fx-text-fill: black;
     -fx-background-color: #00ffea;
 }
+.default_background {
+    -fx-background-color: white;
+    -fx-border-width: 0px;
+}

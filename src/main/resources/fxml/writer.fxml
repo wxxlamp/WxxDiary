@@ -15,7 +15,7 @@
         <AnchorPane fx:id="anchorPane" prefWidth="880.0">
             <children>
                 <HTMLEditor fx:id="editor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                            AnchorPane.topAnchor="0.0"/>
+                            AnchorPane.topAnchor="0.0" />
                 <VBox fx:id="editMenu" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
                       AnchorPane.topAnchor="0.0">
                     <children>
@@ -34,9 +34,9 @@
                                 </ChoiceBox>
                             </children>
                         </HBox>
-                        <ScrollPane >
+                        <ScrollPane styleClass="default_background">
                             <content>
-                                <VBox fx:id="imgPane"/>
+                                <VBox fx:id="imgPane" styleClass="default_background"/>
                             </content>
                         </ScrollPane>
                         <HBox fx:id="operatePane" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">

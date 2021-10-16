@@ -5,18 +5,34 @@
 <?import com.jfoenix.controls.JFXTreeView?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
 <AnchorPane fx:id="mainPane" prefHeight="700.0" prefWidth="1100.0"
             stylesheets="@../css/default.css" xmlns="http://javafx.com/javafx/8.0.171"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.MainController">
     <children>
         <VBox fx:id="dirMenu" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <JFXDatePicker fx:id="datePicker" editable="false" opacity="0.7"/>
+                <AnchorPane fx:id="settingPane">
+                    <children>
+                        <MenuBar fx:id="settingMenu"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="default_background">
+                            <Menu text="設置">
+                                <items>
+                                    <MenuItem text="存储位置" fx:id="changeUrl"/>
+                                    <MenuItem text="日记导出"/>
+                                    <MenuItem text="日记导入"/>
+                                    <MenuItem text="更改秘钥"/>
+                                </items>
+                            </Menu>
+                        </MenuBar>
+                    </children>
+                    <JFXDatePicker fx:id="datePicker" editable="false" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="default_background"/>
+                </AnchorPane>
                 <JFXTreeView fx:id="dirTree" onMouseClicked="#onTreeViewClicked"/>
             </children>
         </VBox>
-        <BorderPane fx:id="writePane" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                    AnchorPane.topAnchor="0.0">
+        <BorderPane fx:id="writePane" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="default_background">
             <center>
                 <JFXButton fx:id="writeButton" onAction="#write" prefHeight="41.88" prefWidth="153.0"
                            styleClass="all_button" text="Write Now !" textAlignment="CENTER" BorderPane.alignment="CENTER">

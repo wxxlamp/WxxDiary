@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import lombok.Getter;
 
@@ -42,6 +43,15 @@ public class MainController implements Initializable {
 
     @FXML
     private VBox dirMenu;
+
+    @FXML
+    private AnchorPane settingPane;
+
+    @FXML
+    private MenuBar settingMenu;
+
+    @FXML
+    private MenuItem changeUrl;
 
     private final TabPane tabPane = new TabPane();
 
@@ -84,9 +94,11 @@ public class MainController implements Initializable {
         dirMenu.prefWidthProperty().bind(mainPane.widthProperty().multiply(0.2));
         writePane.prefWidthProperty().bind(mainPane.widthProperty().multiply(0.8));
 
-        datePicker.prefHeightProperty().bind(dirMenu.heightProperty().multiply(0.06));
-        datePicker.prefWidthProperty().bind(dirMenu.widthProperty());
-        dirTree.prefHeightProperty().bind(dirMenu.heightProperty().multiply(0.94));
+        settingPane.prefHeightProperty().bind(dirMenu.heightProperty().multiply(0.05));
+        dirTree.prefHeightProperty().bind(dirMenu.heightProperty().multiply(0.95));
+
+        settingMenu.prefWidthProperty().bind(settingPane.widthProperty().multiply(0.4));
+        datePicker.prefWidthProperty().bind(settingPane.widthProperty().multiply(0.6));
 
         writeButton.prefWidthProperty().bind(writePane.widthProperty().multiply(0.2));
         writeButton.prefHeightProperty().bind(writePane.heightProperty().multiply(0.06));
