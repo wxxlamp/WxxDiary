@@ -19,7 +19,7 @@ public class PropertyUtils {
     public static String readValue(String key) {
 
         try {
-            PROPERTIES.load(PathUtils.class.getClassLoader().getResourceAsStream("setting.properties"));
+            PROPERTIES.load(PropertyUtils.class.getClassLoader().getResourceAsStream("setting.properties"));
             return PROPERTIES.getProperty(key);
         } catch (IOException e) {
             throw  new DiaryException(DiaryException.DailyExceptionEnum.SYS_ERROR);
