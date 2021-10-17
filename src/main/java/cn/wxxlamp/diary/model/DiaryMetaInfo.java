@@ -55,7 +55,7 @@ public class DiaryMetaInfo {
 
     /**
      * 文本路径, todo 相对路径
-     * wd/data/2021/08/23
+     * 2021/08/23
      */
     private String filePath;
 

@@ -3,8 +3,7 @@ package cn.wxxlamp.diary.controller;
 import cn.wxxlamp.diary.constants.UiText;
 import cn.wxxlamp.diary.model.DiaryDate;
 import cn.wxxlamp.diary.service.WriterPaneService;
-import cn.wxxlamp.diary.util.DateUtils;
-import cn.wxxlamp.diary.util.StringUtils;
+import cn.wxxlamp.diary.util.*;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,8 +16,13 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 
@@ -64,8 +68,6 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         initCustomProperties();
         initDir();
-
-
     }
 
     @FXML
@@ -79,9 +81,9 @@ public class MainController implements Initializable {
             TreeItem<String> mouthItem = selectedItem.getParent();
             TreeItem<String> yearItem = mouthItem.getParent();
             DiaryDate date = DiaryDate.builder()
-                    .year(Integer.valueOf(StringUtils.subString(yearItem.getValue(), UiText.YEAR)))
-                    .mouth(Integer.valueOf(StringUtils.subString(mouthItem.getValue(), UiText.MOUTH)))
-                    .day(Integer.valueOf(StringUtils.subString(selectedItem.getValue(), UiText.DAY)))
+                    .year(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(yearItem.getValue(), UiText.YEAR))))
+                    .mouth(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(mouthItem.getValue(), UiText.MOUTH))))
+                    .day(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(selectedItem.getValue(), UiText.DAY))))
                     .build();
             writerPaneService.setTabPane(date);
         }
@@ -95,8 +97,11 @@ public class MainController implements Initializable {
     @FXML
     public void changeUrl() {
         DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("【注意】更换路径后将索引不到原来的日记");
         Optional.ofNullable(directoryChooser.showDialog(new Stage())).ifPresent(dir -> {
-
+            PropertyUtils.write("basePath", dir.toURI().toString());
+            PathUtils.setDir(null);
+            dirTree.setRoot(writerPaneService.getDiaryDir());
         });
     }
     /**

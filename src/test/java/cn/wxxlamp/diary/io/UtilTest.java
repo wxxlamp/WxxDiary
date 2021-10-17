@@ -37,4 +37,9 @@ public class UtilTest {
         String begin = "3ishfasdfhsfd";
         Assert.assertEquals(begin, StringUtils.subString(begin+end, end));
     }
+
+    @Test
+    public void PathUtilTest() {
+        System.out.println(PathUtils.getDir());
+    }
 }

@@ -1,6 +1,6 @@
 package cn.wxxlamp.diary.service;
 
-import cn.wxxlamp.diary.constants.FxmlNames;
+import cn.wxxlamp.diary.constants.SystemConstants;
 import cn.wxxlamp.diary.constants.UiText;
 import cn.wxxlamp.diary.controller.MainController;
 import cn.wxxlamp.diary.controller.WriterController;
@@ -8,10 +8,7 @@ import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
 import cn.wxxlamp.diary.model.DiaryDate;
 import cn.wxxlamp.diary.model.DiaryInfo;
 import cn.wxxlamp.diary.model.DiaryMetaInfo;
-import cn.wxxlamp.diary.util.DateUtils;
-import cn.wxxlamp.diary.util.FxmlUtils;
-import cn.wxxlamp.diary.util.ImgUtils;
-import cn.wxxlamp.diary.util.PathUtils;
+import cn.wxxlamp.diary.util.*;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.jfoenix.controls.JFXButton;
@@ -24,7 +21,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.HTMLEditor;
 import javafx.util.Pair;
 
-import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -102,15 +98,15 @@ public class WriterPaneService {
         }
     }
 
-    private DiaryInfo getDiaryInfoNotNull(String path) {
-        DiaryInfo diaryInfo = facade.readDiaryInfo(path);
+    private DiaryInfo getDiaryInfoNotNull(String uri) {
+        DiaryInfo diaryInfo = facade.readDiaryInfo(uri);
         if (diaryInfo == null) {
             diaryInfo = DiaryInfo.builder()
                     .metaInfo(DiaryMetaInfo.builder()
                             .week(DateUtils.getWeek(System.currentTimeMillis()))
                             .createTime(System.currentTimeMillis())
                             .updateTime(System.currentTimeMillis())
-                            .filePath(PathUtils.getAbsolutePath(System.currentTimeMillis()))
+                            .filePath(PathUtils.getRelativePath(System.currentTimeMillis()))
                             .build())
                     .build();
         }
@@ -121,9 +117,9 @@ public class WriterPaneService {
         TreeItem<String> rootItem = new TreeItem<>(UiText.DIR);
         PathUtils.getSubFileName(PathUtils.getDir()).stream().sorted(Comparator.reverseOrder()).forEach(y -> {
             TreeItem<String> yearItem = new TreeItem<>(y + UiText.YEAR);
-            PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y).stream().sorted(Comparator.reverseOrder()).forEach(m -> {
+            PathUtils.getSubFileName(PathUtils.getDir() + "/" + y).stream().sorted(Comparator.reverseOrder()).forEach(m -> {
                 TreeItem<String> mouthItem = new TreeItem<>(m + UiText.MOUTH);
-                PathUtils.getSubFileName(PathUtils.getDir() + File.separator + y + File.separator + m).stream().sorted(Comparator.reverseOrder()).forEach(d -> {
+                PathUtils.getSubFileName(PathUtils.getDir() + "/" + y + "/" + m).stream().sorted(Comparator.reverseOrder()).forEach(d -> {
                     TreeItem<String> dayItem = new TreeItem<>(d + UiText.DAY);
                     mouthItem.getChildren().add(dayItem);
                 });
@@ -139,7 +135,7 @@ public class WriterPaneService {
         JFXButton writerButton = mainComponent.getWriteButton();
         TreeView<String> treeView = mainComponent.getDirTree();
 
-        FXMLLoader tabLoader = FxmlUtils.getLoader(FxmlNames.WRITER, false);
+        FXMLLoader tabLoader = FxmlUtils.getLoader(SystemConstants.WRITER, false);
         Tab tab = tabLoader.getRoot();
         WriterController writerComponent = tabLoader.getController();
         HTMLEditor editor = writerComponent.getEditor();
@@ -156,14 +152,14 @@ public class WriterPaneService {
             }
         });
         // 设置编辑器
-        DiaryInfo diaryInfo = getDiaryInfoNotNull(PathUtils.getAbsolutePath(date));
+        DiaryInfo diaryInfo = getDiaryInfoNotNull(PathUtils.getAbsoluteUri(date));
         editor.setHtmlText(diaryInfo.getContent());
         editor.setOnKeyPressed(e -> {
             if (e.isControlDown() & e.getCode() == KeyCode.S) {
                 diaryInfo.setContent(editor.getHtmlText());
                 diaryInfo.getMetaInfo().setUpdateTime(System.currentTimeMillis());
-                diaryInfo.getMetaInfo().setFeeling(feelingChoice.getValue().getValue());
-                List<String> newImgLinks = ImgUtils.buildCopyImg(diaryInfo.getMetaInfo().getFilePath(), imgPane.getChildren().stream().map(Node::getId).collect(Collectors.toList()));
+                Optional.ofNullable(feelingChoice.getValue()).ifPresent(choice -> diaryInfo.getMetaInfo().setFeeling(choice.getValue()));
+                List<String> newImgLinks = ImgUtils.buildCopyImg( diaryInfo.getMetaInfo().getFilePath(), imgPane.getChildren().stream().map(Node::getId).collect(Collectors.toList()));
                 diaryInfo.getMetaInfo().setImgLinks(newImgLinks);
                 facade.writeDiaryInfo(diaryInfo, true);
                 // 如果是当天的第一次保存，则刷新目录
@@ -179,7 +175,7 @@ public class WriterPaneService {
         Optional.ofNullable(diaryInfo.getMetaInfo().getFeeling()).ifPresent(e -> feelingChoice.setValue(new Pair<>(FEELING_MAP[e], e)));
         // 设置图片
         Optional.ofNullable(diaryInfo.getMetaInfo().getImgLinks()).ifPresent(links ->
-                links.forEach(uri -> ImgUtils.buildImgView(uri, imgPane)));
+                links.forEach(uri -> ImgUtils.buildImgView(PathUtils.relativePath2Absolute(uri), imgPane)));
 
         return tab;
     }

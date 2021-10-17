@@ -1,13 +1,10 @@
 package cn.wxxlamp.diary.util;
 
-import cn.wxxlamp.diary.exception.DiaryException;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,6 +19,11 @@ public class ImgUtils {
 
     private static final String JPG = ".jpg";
 
+    /**
+     * 构件imgView，用户上传图片和开启时读取图片
+     * @param uri URI,统一传绝对的
+     * @param imgPane VBOX
+     */
     public static void buildImgView(String uri, VBox imgPane) {
         // TODO 图片尺寸随着窗体动态变化
         Image image = new Image(uri, imgPane.getWidth() <= 0 ? 260 : imgPane.getWidth() * 0.99, 0L, true, true);
@@ -32,19 +34,18 @@ public class ImgUtils {
         imgPane.getChildren().add(imageView);
     }
 
-    public static List<String> buildCopyImg(String ownerPath, List<String> originalImgLinks) {
+    public static List<String> buildCopyImg(String relativePath, List<String> originalImgLinks) {
         return originalImgLinks.stream().map(uri -> {
-            File oldFile;
-            try {
-                oldFile = new File(new URI(uri));
-            } catch (URISyntaxException e) {
-                throw new DiaryException(DiaryException.DailyExceptionEnum.SYS_ERROR, e);
+            if (uri.contains(PathUtils.getDir())) {
+                return PathUtils.absolutePath2Relative(uri);
             }
+            File oldFile = new File(UriCache.getUri(uri));
             String suffix = uri.indexOf(JPG) == uri.length() - JPG.length() ? JPG : PNG;
-            String newImgPath = ownerPath + "_" + PathUtils.buildRandomPath(4) +  suffix;
-            File newFile = new File(newImgPath);
+            String newRelativePath = relativePath + "_" + PathUtils.buildRandomPath(4) +  suffix;
+            String newImgUri = PathUtils.relativePath2Absolute(newRelativePath);
+            File newFile = new File(FileUtils.createIfNotExit(UriCache.getUri(newImgUri).getPath()));
             FileUtils.copyFile(oldFile, newFile);
-            return newFile.toURI().toString();
+            return newRelativePath;
         }).collect(Collectors.toList());
     }
 

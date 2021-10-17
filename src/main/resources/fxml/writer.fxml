@@ -43,7 +43,7 @@
                             <children>
                                 <JFXButton fx:id="uploadButton" onAction="#uploadImg" text="上传图片" textAlignment="CENTER"  styleClass="all_button">
                                     <HBox.margin>
-                                        <Insets left="20.0" right="20.0"/>
+                                        <Insets left="30.0" right="20.0"/>
                                     </HBox.margin>
                                 </JFXButton>
                                 <JFXButton fx:id="saveButton" text="保存" textAlignment="CENTER" styleClass="all_button">

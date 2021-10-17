@@ -104,7 +104,7 @@ public class WriterController implements Initializable {
 
         uploadButton.prefHeightProperty().bind(operatePane.heightProperty().multiply(0.5));
         saveButton.prefHeightProperty().bind(operatePane.heightProperty().multiply(0.5));
-        uploadButton.prefWidthProperty().bind(operatePane.widthProperty().multiply(0.3));
+        uploadButton.prefWidthProperty().bind(operatePane.widthProperty().multiply(0.4));
         saveButton.prefWidthProperty().bind(operatePane.widthProperty().multiply(0.3));
         HBox.setMargin(uploadButton, new Insets(10, 10, 10, 30));
         HBox.setMargin(saveButton, new Insets(10, 30, 10, 10));

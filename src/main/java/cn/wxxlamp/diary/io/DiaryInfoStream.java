@@ -47,16 +47,4 @@ class DiaryInfoStream {
         return diaryInfo;
     }
 
-    public Settings readSettings(String filePath) {
-        String inputStream;
-        if ((inputStream = ioStream.read(filePath)) != null) {
-            return JSONObject.parseObject(inputStream, Settings.class);
-        }
-        throw new DiaryException(DiaryException.DailyExceptionEnum.SETTING_FILE_NOT_FOUND);
-    }
-
-    public void writeSettings(Settings settings, String path) {
-        ioStream.write(settings.toString(), path);
-    }
-
 }
