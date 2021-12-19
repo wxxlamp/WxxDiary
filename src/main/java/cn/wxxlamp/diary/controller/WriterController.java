@@ -1,11 +1,20 @@
 package cn.wxxlamp.diary.controller;
 
+import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
+import cn.wxxlamp.diary.model.DiaryDate;
+import cn.wxxlamp.diary.model.DiaryInfo;
+import cn.wxxlamp.diary.service.StatusRecord;
+import cn.wxxlamp.diary.service.WriterService;
 import cn.wxxlamp.diary.util.ImgUtils;
+import cn.wxxlamp.diary.util.PathUtils;
 import com.jfoenix.controls.JFXButton;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Tab;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,12 +29,18 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static cn.wxxlamp.diary.constants.UiTextConstants.FEELING_MAP;
+import static cn.wxxlamp.diary.service.StatusRecord.FEELING_LIST;
+
 /**
  * @author wxxlamp
  * @date 2021/10/11~22:14
  */
 @Getter
 public class WriterController implements Initializable {
+
+    @FXML
+    private Tab rootTab;
 
     @FXML
     private HTMLEditor editor;
@@ -53,12 +68,32 @@ public class WriterController implements Initializable {
 
     @FXML
     private ChoiceBox<Pair<String, Byte>> feelingChoice;
+
+    private WriterService writerService;
+
+    /**
+     * 每个writeTab都对应一个diaryInfo
+     */
+    private DiaryInfo diaryInfo;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initCustomProperties();
         initPreWidthAndHeight();
         initComponentSetting();
+    }
+
+    public void initController(MainController mainController, String title, DiaryDate date, DiaryInfoIoFacade facade) {
+        writerService = new WriterService(mainController, this, facade);
+        diaryInfo = writerService.getDiaryInfoNotNull(PathUtils.getAbsoluteUri(date));
+        rootTab.setText(title);
+        editor.setHtmlText(diaryInfo.getContent());
+        // 设置心情栏
+        feelingChoice.getItems().addAll(FEELING_LIST);
+        Optional.ofNullable(diaryInfo.getMetaInfo().getFeeling()).ifPresent(e -> feelingChoice.setValue(new Pair<>(FEELING_MAP[e], e)));
+        // 设置图片
+        Optional.ofNullable(diaryInfo.getMetaInfo().getImgLinks()).ifPresent(links ->
+                links.forEach(uri -> ImgUtils.buildImgView(PathUtils.relativePath2Absolute(uri), imgPane)));
     }
 
     @FXML
@@ -69,6 +104,17 @@ public class WriterController implements Initializable {
                 new FileChooser.ExtensionFilter("PNG", "*.png")
         );
         Optional.ofNullable(fileChooser.showOpenDialog(new Stage())).ifPresent(file -> ImgUtils.buildImgView(file.toURI().toString(), imgPane));
+    }
+
+    @FXML
+    public void closeTab() {
+        StatusRecord.REGISTER_TAB.remove(rootTab.getText());
+        writerService.removeTab();
+    }
+
+    @FXML
+    public void saveDiaryByMouse() {
+        writerService.saveDaily(diaryInfo);
     }
 
     private void initComponentSetting() {

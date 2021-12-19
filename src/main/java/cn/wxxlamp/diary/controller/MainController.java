@@ -3,7 +3,8 @@ package cn.wxxlamp.diary.controller;
 import cn.wxxlamp.diary.constants.SystemConstants;
 import cn.wxxlamp.diary.constants.UiTextConstants;
 import cn.wxxlamp.diary.model.DiaryDate;
-import cn.wxxlamp.diary.service.WriterPaneService;
+import cn.wxxlamp.diary.service.MainService;
+import cn.wxxlamp.diary.service.event.EventPublisher;
 import cn.wxxlamp.diary.util.*;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
@@ -61,7 +62,7 @@ public class MainController implements Initializable {
      */
     private final TabPane tabPane = new TabPane();
 
-    private final WriterPaneService writerPaneService = new WriterPaneService(this);
+    private final MainService mainService = new MainService(this);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -84,13 +85,13 @@ public class MainController implements Initializable {
                     .mouth(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(mouthItem.getValue(), UiTextConstants.MOUTH))))
                     .day(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(selectedItem.getValue(), UiTextConstants.DAY))))
                     .build();
-            writerPaneService.setTabPane(date);
+            mainService.setTabPane(date);
         }
     }
 
     @FXML
     public void write() {
-        writerPaneService.setTabPane(DateUtils.getDate(System.currentTimeMillis()));
+        mainService.setTabPane(DateUtils.getDate(System.currentTimeMillis()));
     }
 
     @FXML
@@ -100,7 +101,7 @@ public class MainController implements Initializable {
         Optional.ofNullable(directoryChooser.showDialog(new Stage())).ifPresent(dir -> {
             PropertyUtils.write(SystemConstants.BASE_PATH, dir.toURI().toString());
             PathUtils.setDir(null);
-            dirTree.setRoot(writerPaneService.getDiaryDir());
+            EventPublisher.dirUpdatePublisher(dirTree);
         });
     }
     /**
@@ -124,6 +125,6 @@ public class MainController implements Initializable {
      * 加载日记
      */
     private void initDir() {
-        dirTree.setRoot(writerPaneService.getDiaryDir());
+        EventPublisher.dirUpdatePublisher(dirTree);
     }
 }

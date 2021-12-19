@@ -5,50 +5,49 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.HTMLEditor?>
-<Tab xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1"
-     fx:controller="cn.wxxlamp.diary.controller.WriterController">
+
+<Tab fx:id="rootTab" onCloseRequest="#closeTab" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cn.wxxlamp.diary.controller.WriterController">
     <content>
         <AnchorPane fx:id="anchorPane" prefWidth="880.0">
             <children>
-                <HTMLEditor fx:id="editor" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-                            AnchorPane.topAnchor="0.0" styleClass="default_background_img"/>
-                <VBox fx:id="editMenu" AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
-                      AnchorPane.topAnchor="0.0">
+                <HTMLEditor fx:id="editor" styleClass="default_background_img" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <VBox fx:id="editMenu" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
                         <HBox fx:id="feelingMenu" alignment="CENTER_LEFT">
                             <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="今日心情" textAlignment="CENTER"
-                                      wrappingWidth="145">
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="今日心情" textAlignment="CENTER" wrappingWidth="145">
                                     <font>
-                                        <Font name="Yu Gothic UI Regular" size="20.0"/>
+                                        <Font name="Yu Gothic UI Regular" size="20.0" />
                                     </font>
                                 </Text>
                                 <ChoiceBox fx:id="feelingChoice">
                                     <HBox.margin>
-                                        <Insets right="10.0"/>
+                                        <Insets right="10.0" />
                                     </HBox.margin>
                                 </ChoiceBox>
                             </children>
                         </HBox>
                         <ScrollPane styleClass="default_background_img">
                             <content>
-                                <VBox fx:id="imgPane" styleClass="default_background_img"/>
+                                <VBox fx:id="imgPane" styleClass="default_background_img" />
                             </content>
                         </ScrollPane>
                         <HBox fx:id="operatePane" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <JFXButton fx:id="uploadButton" onAction="#uploadImg" text="上传图片" textAlignment="CENTER"  styleClass="all_button">
+                                <JFXButton fx:id="uploadButton" onAction="#uploadImg" styleClass="all_button" text="上传图片" textAlignment="CENTER">
                                     <HBox.margin>
-                                        <Insets left="30.0" right="20.0"/>
+                                        <Insets left="30.0" right="20.0" />
                                     </HBox.margin>
                                 </JFXButton>
-                                <JFXButton fx:id="saveButton" text="保存" textAlignment="CENTER" styleClass="all_button">
+                                <JFXButton fx:id="saveButton" onAction="#saveDiaryByMouse" styleClass="all_button" text="保存" textAlignment="CENTER">
                                     <HBox.margin>
-                                        <Insets left="20.0"/>
+                                        <Insets left="20.0" />
                                     </HBox.margin>
                                 </JFXButton>
                             </children>
