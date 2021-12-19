@@ -24,29 +24,31 @@ public class PathUtils {
     /**
      * 文件存储根目录, URI 形式
      */
-    private static String DIR = null;
+    private static String dir = null;
+
+    private static String separator = "/";
 
     private static final Pattern PATTERN = Pattern.compile("[0-9]*");
 
     /**
      * 获取用户数据目录
      *
-     * @return {@link PathUtils#DIR}
+     * @return {@link PathUtils#dir}
      */
     public static String getDir() {
-        if (DIR == null) {
-            DIR = PropertyUtils.readValue(BASE_PATH);
-            if (DIR == null) {
+        if (dir == null) {
+            dir = PropertyUtils.readValue(BASE_PATH);
+            if (dir == null) {
                 try {
-                    DIR = Objects.requireNonNull(PathUtils.class.getResource("/")).toURI().toString();
+                    dir = Objects.requireNonNull(PathUtils.class.getResource("/")).toURI().toString();
                 } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
-                PropertyUtils.write(BASE_PATH, DIR);
+                PropertyUtils.write(BASE_PATH, dir);
             }
-            DIR = DIR + BASE_DIR;
+            dir = dir + BASE_DIR;
         }
-        return DIR;
+        return dir;
     }
 
     /**
@@ -70,7 +72,7 @@ public class PathUtils {
      * @deprecated {@link #getAbsoluteUri(DiaryDate)}
      */
     public static String getAbsoluteUri(Integer year, Integer mouth, Integer day) {
-        return getDir() + File.separator + getRelativePath(year, mouth, day);
+        return getDir() + separator + getRelativePath(year, mouth, day);
     }
 
     /**
@@ -80,7 +82,7 @@ public class PathUtils {
      * @return 绝对URI
      */
     public static String getAbsoluteUri(DiaryDate date) {
-        return getDir() + File.separator + getRelativePath(date);
+        return getDir() + separator + getRelativePath(date);
     }
 
     /**
@@ -93,7 +95,7 @@ public class PathUtils {
      * @deprecated {@link #getRelativePath(DiaryDate)}
      */
     public static String getRelativePath(Integer year, Integer mouth, Integer day) {
-        return year + File.separator + mouth + File.separator + day;
+        return year + separator + mouth + separator + day;
     }
 
     /**
@@ -103,7 +105,7 @@ public class PathUtils {
      * @return 相对路径
      */
     public static String getRelativePath(DiaryDate date) {
-        return date.getYear() + File.separator + date.getMouth() + File.separator + date.getDay();
+        return date.getYear() + separator + date.getMouth() + separator + date.getDay();
     }
 
     /**
@@ -148,14 +150,14 @@ public class PathUtils {
     }
 
     public static String absolutePath2Relative(String absolutePath) {
-        return absolutePath.substring((PathUtils.getDir() + File.separator).length());
+        return absolutePath.substring((PathUtils.getDir() + separator).length());
     }
 
     public static String relativePath2Absolute(String relativePath) {
-        return PathUtils.getDir() + File.separator + relativePath;
+        return PathUtils.getDir() + separator + relativePath;
     }
 
     public static void setDir(String dir) {
-        DIR = dir;
+        PathUtils.dir = dir;
     }
 }
