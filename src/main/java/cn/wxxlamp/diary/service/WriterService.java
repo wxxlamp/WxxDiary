@@ -74,7 +74,8 @@ public class WriterService {
         diaryInfo.setContent(editor.getHtmlText());
         diaryInfo.getMetaInfo().setUpdateTime(System.currentTimeMillis());
         Optional.ofNullable(feelingChoice.getValue()).ifPresent(choice -> diaryInfo.getMetaInfo().setFeeling(choice.getValue()));
-        List<String> newImgLinks = ImgUtils.buildCopyImg( diaryInfo.getMetaInfo().getFilePath(), imgPane.getChildren().stream().map(Node::getId).collect(Collectors.toList()));
+        List<String> newImgLinks = ImgUtils.buildCopyImg(diaryInfo.getMetaInfo().getFilePath(),
+                imgPane.getChildren().stream().map(Node::getId).collect(Collectors.toList()));
         diaryInfo.getMetaInfo().setImgLinks(newImgLinks);
         facade.writeDiaryInfo(diaryInfo, true);
         // 如果是当天的第一次保存，则刷新目录
