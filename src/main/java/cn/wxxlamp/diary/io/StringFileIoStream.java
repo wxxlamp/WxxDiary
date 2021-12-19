@@ -1,5 +1,6 @@
 package cn.wxxlamp.diary.io;
 
+import cn.wxxlamp.diary.util.EncryptUtils;
 import cn.wxxlamp.diary.util.FileUtils;
 import cn.wxxlamp.diary.util.PathUtils;
 
@@ -14,9 +15,6 @@ import java.util.Map;
  */
 class StringFileIoStream {
 
-    // TODO 增加缓存
-    public static Map<String, BufferedWriter> pathWriterCache = new HashMap<>(16);
-
     /**
      * 将字符串信息写入path中
      * @param content 字符串内容
@@ -24,7 +22,7 @@ class StringFileIoStream {
      */
     public void write(String content, String path) {
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FileUtils.createIfNotExit(path)))) {
-            bufferedWriter.write(content);
+            bufferedWriter.write(EncryptUtils.encrypt(content));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,7 +44,7 @@ class StringFileIoStream {
         } catch (IOException e){
             e.printStackTrace();
         }
-        return sb.toString();
+        return EncryptUtils.decrypt(sb.toString());
     }
 
 }
