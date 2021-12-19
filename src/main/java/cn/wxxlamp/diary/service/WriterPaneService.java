@@ -1,7 +1,7 @@
 package cn.wxxlamp.diary.service;
 
 import cn.wxxlamp.diary.constants.SystemConstants;
-import cn.wxxlamp.diary.constants.UiText;
+import cn.wxxlamp.diary.constants.UiTextConstants;
 import cn.wxxlamp.diary.controller.MainController;
 import cn.wxxlamp.diary.controller.WriterController;
 import cn.wxxlamp.diary.io.DiaryInfoIoFacade;
@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static cn.wxxlamp.diary.constants.UiText.FEELING_MAP;
+import static cn.wxxlamp.diary.constants.UiTextConstants.FEELING_MAP;
 
 /**
  * @author wxxlamp
@@ -82,7 +82,7 @@ public class WriterPaneService {
         return new Pair<>(tab, registeredTab);
     }
 
-    public void setTabPane(DiaryDate date){
+    public void setTabPane(DiaryDate date) {
         TabPane tabPane = mainComponent.getTabPane();
         BorderPane writerPane = mainComponent.getWritePane();
 
@@ -114,13 +114,13 @@ public class WriterPaneService {
     }
 
     public TreeItem<String> getDiaryDir() {
-        TreeItem<String> rootItem = new TreeItem<>(UiText.DIR);
+        TreeItem<String> rootItem = new TreeItem<>(UiTextConstants.DIR);
         PathUtils.getSubFileName(PathUtils.getDir()).stream().sorted(Comparator.reverseOrder()).forEach(y -> {
-            TreeItem<String> yearItem = new TreeItem<>(y + UiText.YEAR);
+            TreeItem<String> yearItem = new TreeItem<>(y + UiTextConstants.YEAR);
             PathUtils.getSubFileName(PathUtils.getDir() + "/" + y).stream().sorted(Comparator.reverseOrder()).forEach(m -> {
-                TreeItem<String> mouthItem = new TreeItem<>(m + UiText.MOUTH);
+                TreeItem<String> mouthItem = new TreeItem<>(m + UiTextConstants.MOUTH);
                 PathUtils.getSubFileName(PathUtils.getDir() + "/" + y + "/" + m).stream().sorted(Comparator.reverseOrder()).forEach(d -> {
-                    TreeItem<String> dayItem = new TreeItem<>(d + UiText.DAY);
+                    TreeItem<String> dayItem = new TreeItem<>(d + UiTextConstants.DAY);
                     mouthItem.getChildren().add(dayItem);
                 });
                 yearItem.getChildren().add(mouthItem);

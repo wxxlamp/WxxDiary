@@ -1,6 +1,7 @@
 package cn.wxxlamp.diary.controller;
 
-import cn.wxxlamp.diary.constants.UiText;
+import cn.wxxlamp.diary.constants.SystemConstants;
+import cn.wxxlamp.diary.constants.UiTextConstants;
 import cn.wxxlamp.diary.model.DiaryDate;
 import cn.wxxlamp.diary.service.WriterPaneService;
 import cn.wxxlamp.diary.util.*;
@@ -10,19 +11,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 
@@ -60,6 +56,9 @@ public class MainController implements Initializable {
     @FXML
     private MenuItem changeUrlItem;
 
+    /**
+     * FXML不允許单个的tabPane存在，所以这个只能手动new，然后再放到位置上
+     */
     private final TabPane tabPane = new TabPane();
 
     private final WriterPaneService writerPaneService = new WriterPaneService(this);
@@ -77,13 +76,13 @@ public class MainController implements Initializable {
         if (selectedItem == null) {
             return;
         }
-        if (selectedItem.getValue().endsWith(UiText.DAY)) {
+        if (selectedItem.getValue().endsWith(UiTextConstants.DAY)) {
             TreeItem<String> mouthItem = selectedItem.getParent();
             TreeItem<String> yearItem = mouthItem.getParent();
             DiaryDate date = DiaryDate.builder()
-                    .year(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(yearItem.getValue(), UiText.YEAR))))
-                    .mouth(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(mouthItem.getValue(), UiText.MOUTH))))
-                    .day(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(selectedItem.getValue(), UiText.DAY))))
+                    .year(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(yearItem.getValue(), UiTextConstants.YEAR))))
+                    .mouth(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(mouthItem.getValue(), UiTextConstants.MOUTH))))
+                    .day(Integer.valueOf(Objects.requireNonNull(StringUtils.subString(selectedItem.getValue(), UiTextConstants.DAY))))
                     .build();
             writerPaneService.setTabPane(date);
         }
@@ -99,7 +98,7 @@ public class MainController implements Initializable {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("【注意】更换路径后将索引不到原来的日记");
         Optional.ofNullable(directoryChooser.showDialog(new Stage())).ifPresent(dir -> {
-            PropertyUtils.write("basePath", dir.toURI().toString());
+            PropertyUtils.write(SystemConstants.BASE_PATH, dir.toURI().toString());
             PathUtils.setDir(null);
             dirTree.setRoot(writerPaneService.getDiaryDir());
         });

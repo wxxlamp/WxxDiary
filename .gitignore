@@ -3,3 +3,4 @@
 *.class
 target
 src/test/resources
+/out
