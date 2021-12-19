@@ -8,6 +8,8 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 
+import static cn.wxxlamp.diary.constants.SystemConstants.CRYPT;
+
 /**
  * @author wxxlamp
  * @date 2021/12/19~17:21
@@ -24,7 +26,7 @@ public class EncryptUtils {
      * 字符串默认键值
      * 如果修改，则需要重启系统
      */
-    private static final String STR_DEFAULT_KEY = PropertyUtils.readValue("crypt");
+    private static final String STR_DEFAULT_KEY = PropertyUtils.readValue(CRYPT);
 
     static {
         try {

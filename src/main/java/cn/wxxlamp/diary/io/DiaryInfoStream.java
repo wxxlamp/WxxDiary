@@ -1,9 +1,7 @@
 package cn.wxxlamp.diary.io;
 
-import cn.wxxlamp.diary.exception.DiaryException;
 import cn.wxxlamp.diary.model.DiaryInfo;
 import cn.wxxlamp.diary.model.DiaryMetaInfo;
-import cn.wxxlamp.diary.model.Settings;
 import com.alibaba.fastjson.JSONObject;
 
 /**

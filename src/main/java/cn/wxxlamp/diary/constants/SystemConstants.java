@@ -12,5 +12,7 @@ public interface SystemConstants {
 
     String BASE_PATH = "basePath";
 
+    String CRYPT = "crypt";
+
     String BASE_DIR = "wd/data";
 }
