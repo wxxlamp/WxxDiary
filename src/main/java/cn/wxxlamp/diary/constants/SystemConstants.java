@@ -6,6 +6,8 @@ package cn.wxxlamp.diary.constants;
  */
 public interface SystemConstants {
 
+    String LOGIN = "login";
+
     String MAIN = "main";
 
     String WRITER = "writer";

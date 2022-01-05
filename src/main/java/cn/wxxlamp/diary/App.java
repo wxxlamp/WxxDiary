@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import java.net.URISyntaxException;
 import java.util.Objects;
 
-import static cn.wxxlamp.diary.constants.SystemConstants.MAIN;
+import static cn.wxxlamp.diary.constants.SystemConstants.LOGIN;
 
 /**
  * @author wxxlamp
@@ -18,19 +18,21 @@ import static cn.wxxlamp.diary.constants.SystemConstants.MAIN;
  */
 public class App extends Application {
 
+    public static final Stage STAGE = new Stage();
+
     public static void main(String[] args) {
         launch();
     }
 
     @Override
     public void start(Stage stage) {
-        stage = new Stage();
+        stage = STAGE;
         stage.setTitle("wxx diary");
-        Scene scene = new Scene(FxmlUtils.getNode(MAIN));
+        Scene scene = new Scene(FxmlUtils.getNode(LOGIN));
         stage.setScene(scene);
         stage.setResizable(false);
         try {
-            stage.getIcons().add(new Image(PathUtils.class.getResource("/img/favicon.ico").toURI().toString()));
+            stage.getIcons().add(new Image(Objects.requireNonNull(PathUtils.class.getResource("/img/favicon.ico")).toURI().toString()));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
