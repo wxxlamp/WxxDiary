@@ -46,6 +46,9 @@ public class LoginController implements Initializable {
         } else {
             // 第一次使用
             if (originEncryptPwd == null) {
+                if (pwdText.getText() == null) {
+                    return;
+                }
                 PropertyUtils.write(SystemConstants.CRYPT,
                         EncryptUtils.encryptWithKey(pwdText.getText(), pwdText.getText()));
             }
