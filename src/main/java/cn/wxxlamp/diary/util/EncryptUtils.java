@@ -1,5 +1,6 @@
 package cn.wxxlamp.diary.util;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
@@ -59,6 +60,8 @@ public class EncryptUtils {
             encryptCipher.init(Cipher.ENCRYPT_MODE, key);
             decryptCipher.init(Cipher.DECRYPT_MODE, key);
             decryptKey = new String(decrypt(hexStr2ByteArr(encryptStr)));
+        } catch (BadPaddingException e) {
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
         }
