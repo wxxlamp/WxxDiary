@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
 Main-Class: cn.wxxlamp.diary.App
+JavaFX-Application-Class: cn.wxxlamp.diary.App
 

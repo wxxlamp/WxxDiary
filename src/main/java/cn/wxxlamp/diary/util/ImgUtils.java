@@ -43,7 +43,7 @@ public class ImgUtils {
             String suffix = uri.indexOf(JPG) == uri.length() - JPG.length() ? JPG : PNG;
             String newRelativePath = relativePath + "_" + PathUtils.buildRandomPath(4) +  suffix;
             String newImgUri = PathUtils.relativePath2Absolute(newRelativePath);
-            File newFile = new File(FileUtils.createIfNotExit(UriCache.getUri(newImgUri).getPath()));
+            File newFile = FileUtils.createIfNotExit(UriCache.getUri(newImgUri).getPath());
             FileUtils.copyFile(oldFile, newFile);
             return newRelativePath;
         }).collect(Collectors.toList());

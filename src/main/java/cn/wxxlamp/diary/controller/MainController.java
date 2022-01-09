@@ -10,16 +10,17 @@ import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
@@ -124,8 +125,26 @@ public class MainController implements Initializable {
         directoryChooser.setTitle("选择导出路径");
         Optional.ofNullable(directoryChooser.showDialog(new Stage())).ifPresent(dir -> {
             String basePath = PropertyUtils.readValue(SystemConstants.BASE_PATH);
-            ZipUtils.toZip(new String[]{basePath + "/wd"}, dir.getPath() + File.separator + "wd.zip");
+            ZipUtils.enZip(new String[]{basePath + "wd"}, dir.getPath() + File.separator + "wd.zip");
         });
+    }
+
+    @FXML
+    public void fileImport() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("ZIP", "*.zip")
+        );
+        Optional.ofNullable(fileChooser.showOpenDialog(new Stage())).ifPresent(file -> {
+                String basePath = PropertyUtils.readValue(SystemConstants.BASE_PATH);
+                try {
+                    ZipUtils.deZip(file, basePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                EventPublisher.dirUpdatePublisher(dirTree);
+            });
+
     }
 
     /**

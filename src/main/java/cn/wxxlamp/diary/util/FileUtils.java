@@ -15,16 +15,15 @@ public class FileUtils {
      * @param path 目录
      * @return path
      */
-    public static String createIfNotExit(String path) {
-        File dayFile = new File(path);
-        File mouthFolder;
+    public static File createIfNotExit(String path) {
+        File subFile = new File(path), parentFile;
         boolean success = true;
-        if (!dayFile.exists()) {
-            if (!(mouthFolder = dayFile.getParentFile()).exists()) {
-                success = mouthFolder.mkdirs();
+        if (!subFile.exists()) {
+            if (!(parentFile = subFile.getParentFile()).exists()) {
+                success = parentFile.mkdirs();
             }
             try {
-                success = dayFile.createNewFile();
+                success = subFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -32,7 +31,7 @@ public class FileUtils {
         if (!success) {
             throw  new DiaryException(DiaryException.DailyExceptionEnum.FILE_OPEN_ERROR);
         }
-        return path;
+        return subFile;
     }
 
     public static void copyFile(File oldFile, File newFile) {
