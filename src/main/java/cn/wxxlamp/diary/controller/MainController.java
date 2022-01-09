@@ -7,8 +7,10 @@ import cn.wxxlamp.diary.service.MainService;
 import cn.wxxlamp.diary.service.event.EventPublisher;
 import cn.wxxlamp.diary.util.*;
 import com.jfoenix.controls.JFXButton;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -17,6 +19,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import lombok.Getter;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Optional;
@@ -56,6 +59,9 @@ public class MainController implements Initializable {
 
     @FXML
     private MenuItem changeUrlItem;
+
+    @FXML
+    private MenuItem changeCryptKey;
 
     /**
      * FXML不允許单个的tabPane存在，所以这个只能手动new，然后再放到位置上
@@ -104,6 +110,24 @@ public class MainController implements Initializable {
             EventPublisher.dirUpdatePublisher(dirTree);
         });
     }
+
+    @FXML
+    public void changeCrypt() {
+        Stage stage = new Stage();
+        stage.setTitle("change crypt key");
+        stage.show();
+    }
+
+    @FXML
+    public void fileExport() {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("选择导出路径");
+        Optional.ofNullable(directoryChooser.showDialog(new Stage())).ifPresent(dir -> {
+            String basePath = PropertyUtils.readValue(SystemConstants.BASE_PATH);
+            ZipUtils.toZip(new String[]{basePath + "/wd"}, dir.getPath() + File.separator + "wd.zip");
+        });
+    }
+
     /**
      * 绑定尺寸
      */

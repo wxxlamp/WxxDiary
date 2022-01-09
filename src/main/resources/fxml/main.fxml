@@ -20,9 +20,9 @@
                             <Menu text="設置" styleClass="default_background">
                                 <items>
                                     <MenuItem text="存储位置" fx:id="changeUrlItem" onAction="#changeUrl"/>
-                                    <MenuItem text="日记导出"/>
+                                    <MenuItem text="日记导出" onAction="#fileExport"/>
                                     <MenuItem text="日记导入"/>
-                                    <MenuItem text="更改秘钥"/>
+                                    <MenuItem text="更改秘钥" fx:id="changeCryptKey" onAction="#changeCrypt"/>
                                 </items>
                             </Menu>
                         </MenuBar>

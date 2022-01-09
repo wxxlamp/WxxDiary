@@ -26,7 +26,7 @@ public class PathUtils {
      */
     private static String dir = null;
 
-    private static String separator = "/";
+    private static final String SEPARATOR = "/";
 
     private static final Pattern PATTERN = Pattern.compile("[0-9]*");
 
@@ -72,7 +72,7 @@ public class PathUtils {
      * @deprecated {@link #getAbsoluteUri(DiaryDate)}
      */
     public static String getAbsoluteUri(Integer year, Integer mouth, Integer day) {
-        return getDir() + separator + getRelativePath(year, mouth, day);
+        return getDir() + SEPARATOR + getRelativePath(year, mouth, day);
     }
 
     /**
@@ -82,7 +82,7 @@ public class PathUtils {
      * @return 绝对URI
      */
     public static String getAbsoluteUri(DiaryDate date) {
-        return getDir() + separator + getRelativePath(date);
+        return getDir() + SEPARATOR + getRelativePath(date);
     }
 
     /**
@@ -95,7 +95,7 @@ public class PathUtils {
      * @deprecated {@link #getRelativePath(DiaryDate)}
      */
     public static String getRelativePath(Integer year, Integer mouth, Integer day) {
-        return year + separator + mouth + separator + day;
+        return year + SEPARATOR + mouth + SEPARATOR + day;
     }
 
     /**
@@ -105,7 +105,7 @@ public class PathUtils {
      * @return 相对路径
      */
     public static String getRelativePath(DiaryDate date) {
-        return date.getYear() + separator + date.getMouth() + separator + date.getDay();
+        return date.getYear() + SEPARATOR + date.getMouth() + SEPARATOR + date.getDay();
     }
 
     /**
@@ -150,11 +150,11 @@ public class PathUtils {
     }
 
     public static String absolutePath2Relative(String absolutePath) {
-        return absolutePath.substring((PathUtils.getDir() + separator).length());
+        return absolutePath.substring((PathUtils.getDir() + SEPARATOR).length());
     }
 
     public static String relativePath2Absolute(String relativePath) {
-        return PathUtils.getDir() + separator + relativePath;
+        return PathUtils.getDir() + SEPARATOR + relativePath;
     }
 
     public static void setDir(String dir) {

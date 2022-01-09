@@ -29,5 +29,10 @@ public class DiaryException extends RuntimeException{
          * 未找到配置文件
          */
         SETTING_FILE_NOT_FOUND,
+
+        /**
+         * 文件压缩&解压缩异常
+         */
+        COMPRESS,
     }
 }
