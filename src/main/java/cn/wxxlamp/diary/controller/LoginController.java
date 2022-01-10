@@ -43,7 +43,7 @@ public class LoginController implements Initializable {
     public void checkPwd() {
         if (originEncryptPwd != null && !Objects.equals(pwdText.getText(),
                 EncryptUtils.decryptWithKey(pwdText.getText(), originEncryptPwd))) {
-            pwdText.setText("pwd is error");
+            pwdText.setText("pwd is error, please try again");
             pwdText.setFocusColor(Paint.valueOf("red"));
         } else {
             // 第一次使用
