@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.paint.Paint;
 
 import java.net.URL;
 import java.util.Objects;
@@ -43,6 +44,7 @@ public class LoginController implements Initializable {
         if (originEncryptPwd != null && !Objects.equals(pwdText.getText(),
                 EncryptUtils.decryptWithKey(pwdText.getText(), originEncryptPwd))) {
             pwdText.setText("pwd is error");
+            pwdText.setFocusColor(Paint.valueOf("red"));
         } else {
             // 第一次使用
             if (originEncryptPwd == null) {

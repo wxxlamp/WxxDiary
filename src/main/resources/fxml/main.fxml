@@ -19,10 +19,10 @@
                         <MenuBar fx:id="settingMenu"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="default_background">
                             <Menu text="設置" styleClass="default_background">
                                 <items>
-                                    <MenuItem text="存储位置" fx:id="changeUrlItem" onAction="#changeUrl"/>
+<!--                                    <MenuItem text="存储位置" fx:id="changeUrlItem" onAction="#changeUrl"/>-->
                                     <MenuItem text="日记导出" onAction="#fileExport"/>
                                     <MenuItem text="日记导入" onAction="#fileImport"/>
-                                    <MenuItem text="更改秘钥" fx:id="changeCryptKey" onAction="#changeCrypt"/>
+<!--                                    <MenuItem text="更改秘钥" fx:id="changeCryptKey" onAction="#changeCrypt"/>-->
                                 </items>
                             </Menu>
                         </MenuBar>

@@ -7,7 +7,6 @@ import cn.wxxlamp.diary.service.MainService;
 import cn.wxxlamp.diary.service.event.EventPublisher;
 import cn.wxxlamp.diary.util.*;
 import com.jfoenix.controls.JFXButton;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -114,6 +113,7 @@ public class MainController implements Initializable {
 
     @FXML
     public void changeCrypt() {
+        // TODO
         Stage stage = new Stage();
         stage.setTitle("change crypt key");
         stage.show();

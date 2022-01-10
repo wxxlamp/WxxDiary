@@ -1,8 +1,11 @@
 package cn.wxxlamp.diary.util;
 
+import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.*;
 import java.util.List;
@@ -28,9 +31,15 @@ public class ImgUtils {
         // TODO 图片尺寸随着窗体动态变化
         Image image = new Image(uri, imgPane.getWidth() <= 0 ? 260 : imgPane.getWidth() * 0.99, 0L, true, true);
         ImageView imageView = new ImageView(image);
+        // 图片详情
+        imageView.setOnMouseClicked(handler -> {
+            Stage stage = new Stage();
+            stage.setTitle("img desc");
+            stage.setScene(new Scene(new ScrollPane(new ImageView(new Image(uri, 600,0L, true, true)))));
+            stage.show();
+        });
         imageView.fitWidthProperty().bind(image.widthProperty());
         imageView.setId(uri);
-        // TODO 增加图片详情功能
         imgPane.getChildren().add(imageView);
     }
 
